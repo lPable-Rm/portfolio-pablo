@@ -1,0 +1,62 @@
+/* Base global: reglas pequeñas que afectan a toda la pagina. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-yellow);
+  outline-offset: 4px;
+}
+
+.sr-only {
+  /* Texto disponible para lectores de pantalla, oculto visualmente. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  /* Accesibilidad: aparece al enfocar con teclado y salta directo al contenido. */
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  padding: 0.75rem 1rem;
+  color: var(--color-bg);
+  background: var(--color-yellow);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Respeta usuarios que prefieren menos movimiento. */
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

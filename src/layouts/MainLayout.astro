@@ -1,0 +1,42 @@
+---
+// El layout centraliza todo lo comun a la pagina:
+// metadatos, estilos globales, header fijo y el contenedor principal.
+import Header from "../components/Header";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Pablo.dev | Portfolio",
+  description = "Portfolio creativo de Pablo, desarrollador con mentalidad fullstack.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <!-- Metadatos basicos para que la pagina sea responsive, indexable y tenga favicon. -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Enlace de accesibilidad: permite saltar el menu usando teclado. -->
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+    <!-- Header React porque necesitara estado activo y menu movil. -->
+    <Header client:load />
+
+    <!-- Aqui Astro inyecta las secciones de cada pagina. -->
+    <main id="main-content" class="site-main">
+      <slot />
+    </main>
+  </body>
+</html>

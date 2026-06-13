@@ -1,0 +1,9 @@
+<svg width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="title desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="title">Icono de cartucho retro</title>
+  <desc id="desc">Cartucho pixel art estilo retro para la sección de proyectos.</desc>
+
+  <path
+    d="M5 3h14v2h1v16H4V5h1V3Zm2 3v2h10V6H7Zm0 4v7h10v-7H7Zm2 2h6v3H9v-3Zm-2 7v1h2v-1H7Zm4 0v1h2v-1h-2Zm4 0v1h2v-1h-2Z"
+    fill="currentColor"
+  />
+</svg>

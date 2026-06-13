@@ -1,0 +1,36 @@
+/* Contacto: layout de texto breve + terminal. */
+.contact-grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+}
+
+.terminal-panel {
+  display: grid;
+  gap: 1rem;
+  border-radius: 8px;
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  line-height: 1.7;
+}
+
+.terminal-panel p {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+}
+
+.terminal-panel span {
+  color: var(--color-green);
+  font-weight: 800;
+}
+
+.terminal-panel a {
+  width: fit-content;
+  text-decoration: none;
+}
+
+@media (max-width: 820px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}

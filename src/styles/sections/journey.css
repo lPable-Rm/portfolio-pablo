@@ -1,0 +1,54 @@
+/* Mi viaje: frame del futuro juego, timeline y enlace de CV. */
+.game-frame {
+  overflow: hidden;
+  border: 1px solid rgba(66, 248, 255, 0.28);
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-cyan);
+}
+
+.game-frame__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  color: var(--color-yellow);
+  background: rgba(5, 7, 17, 0.9);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.game-placeholder {
+  display: grid;
+  min-height: clamp(18rem, 42vw, 30rem);
+  place-items: center;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  color: var(--color-muted);
+  background:
+    linear-gradient(rgba(246, 247, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(246, 247, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(66, 248, 255, 0.12), rgba(255, 79, 216, 0.08));
+  background-size: 28px 28px, 28px 28px, auto;
+}
+
+.game-placeholder p {
+  margin: 0;
+}
+
+.timeline-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 1.3rem 0 1.5rem;
+  color: var(--color-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.timeline-strip span {
+  border: 1px solid rgba(255, 230, 109, 0.28);
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 230, 109, 0.08);
+}

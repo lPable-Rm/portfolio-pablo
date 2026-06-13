@@ -1,0 +1,29 @@
+---
+import ProjectCartridges from "../components/projects/ProjectCartridges";
+---
+
+<!-- Proyectos: selector de cartuchos y panel dinamico. -->
+<section class="section projects-section" id="proyectos" aria-labelledby="projects-title">
+  <div class="section-shell">
+    <!-- Cabecera centrada siguiendo la direccion del boceto. -->
+    <div class="section-heading projects-heading">
+      <div class="projects-title-row">
+        <span class="projects-heart" aria-hidden="true">&#9829;</span>
+        <h2 class="section-title projects-title" id="projects-title">
+          Mis proyectos
+        </h2>
+        <span class="projects-heart" aria-hidden="true">&#9829;</span>
+      </div>
+
+      <div class="projects-subtitle-row">
+        <span class="projects-subtitle-line" aria-hidden="true"></span>
+        <p class="section-intro projects-subtitle">
+          Selecciona un cartucho
+        </p>
+        <span class="projects-subtitle-line" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <ProjectCartridges client:visible />
+  </div>
+</section>

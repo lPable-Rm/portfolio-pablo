@@ -1,0 +1,52 @@
+/* Utilidades de estilo pixel/arcade usadas en labels, botones y paneles. */
+.pixel-label,
+.pixel-button,
+.brand-mark,
+.nav-links a,
+.section-title,
+.game-frame__top,
+.timeline-strip,
+.cartridge-card h3 {
+  font-family: var(--font-pixel);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.pixel-label {
+  /* Etiqueta pequena para dar tono de interfaz arcade sin afectar la lectura del body. */
+  margin: 0;
+  color: var(--color-yellow);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.pixel-button {
+  /* Boton con sombra dura para recordar a UI retro sin depender de imagenes. */
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--color-bg);
+  background: var(--color-yellow);
+  border: 2px solid rgba(255, 255, 255, 0.74);
+  box-shadow: 5px 5px 0 rgba(255, 79, 216, 0.75);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pixel-button:focus-visible,
+.pixel-button:hover {
+  color: var(--color-bg);
+  background: var(--color-cyan);
+  box-shadow: 5px 5px 0 rgba(255, 230, 109, 0.72);
+}
+
+.pixel-panel {
+  /* Marco reutilizable para paneles tipo consola o maquina arcade. */
+  border: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, rgba(16, 23, 47, 0.96), rgba(5, 7, 17, 0.96));
+  box-shadow: var(--shadow-cyan), inset 0 0 0 2px rgba(255, 255, 255, 0.04);
+}

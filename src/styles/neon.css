@@ -1,0 +1,27 @@
+/* Efectos neon controlados. Los concentramos aqui para no ensuciar el CSS base. */
+.section-title,
+.hero-title {
+  text-shadow:
+    0 0 18px rgba(66, 248, 255, 0.24),
+    0 0 34px rgba(255, 79, 216, 0.16);
+}
+
+.terminal-panel {
+  /* La terminal usa verde solo como acento funcional, siguiendo el AGENTS.md. */
+  border: 1px solid rgba(109, 255, 159, 0.28);
+  background:
+    linear-gradient(180deg, rgba(6, 12, 20, 0.96), rgba(5, 10, 17, 0.96)),
+    var(--color-bg-soft);
+  box-shadow: 0 0 28px rgba(109, 255, 159, 0.12);
+  color: var(--color-green);
+  font-family: var(--font-terminal);
+}
+
+.terminal-panel a {
+  color: var(--color-cyan);
+}
+
+.terminal-panel a:hover,
+.terminal-panel a:focus-visible {
+  color: var(--color-yellow);
+}

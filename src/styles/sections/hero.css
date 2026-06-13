@@ -1,0 +1,337 @@
+/* Hero: primera pantalla del portfolio y escena visual principal. */
+.hero-section {
+  position: relative;
+  display: grid;
+  height: 100svh;
+  overflow: hidden;
+  padding-top: calc(var(--header-height) + 4.5rem);
+  --hero-background-image: url("/assets/backgrounds/heroPrincipal.png");
+  background:
+    linear-gradient(90deg, rgba(5, 7, 17, 0.44) 0 42%, rgba(5, 7, 17, 0.08) 68%),
+    linear-gradient(180deg, rgba(5, 7, 17, 0.35), rgba(5, 7, 17, 0.18)),
+    var(--hero-background-image),
+    var(--color-bg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto, auto, cover, auto;
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  grid-template-columns: minmax(34rem, 52rem) minmax(28rem, 43rem);
+}
+
+.hero-left-rail {
+  /* Decoracion lateral inspirada en el boceto. */
+  position: absolute;
+  top: 20%;
+  left: clamp(1.4rem, 2.4vw, 2.8rem);
+  z-index: 1;
+  width: auto;
+  height: clamp(30rem, 54vh, 38rem);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.hero-copy {
+  display: grid;
+  max-width: 39rem;
+  gap: 1.15rem;
+  padding-bottom: 5vh;
+}
+
+.hero-title {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: clamp(5rem, 6.4vw, 7.4rem);
+  font-weight: 700;
+  line-height: 0.84;
+  text-transform: none;
+}
+
+.hero-title-line {
+  display: block;
+}
+
+.hero-title-line--cyan {
+  color: var(--color-cyan);
+}
+
+.hero-title-line--magenta {
+  color: var(--color-magenta);
+}
+
+.hero-title-dot {
+  color: var(--color-text);
+}
+
+.hero-subtitle {
+  max-width: 47rem;
+  margin: 0;
+  color: #a7fbff;
+  font-family: var(--font-terminal);
+  font-size: clamp(1.45rem, 2.15vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.hero-subtitle strong {
+  color: var(--color-magenta);
+  font-weight: 800;
+}
+
+.hero-text {
+  display: grid;
+  max-width: 47rem;
+  gap: 1.6rem;
+  margin-top: 0.9rem;
+  color: rgba(246, 247, 255, 0.9);
+  font-size: clamp(1.08rem, 1.35vw, 1.32rem);
+  line-height: 1.7;
+}
+
+.hero-text p {
+  margin: 0;
+}
+
+.hero-visual {
+  position: relative;
+  display: flex;
+  min-height: clamp(34rem, 58vh, 44rem);
+  align-self: end;
+  justify-content: flex-start;
+}
+
+.hero-game-screen {
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+  z-index: 1;
+  width: clamp(18rem, 20vw, 24rem);
+  height: auto;
+  opacity: 0.96;
+  pointer-events: none;
+  filter:
+    drop-shadow(0 0 1.8rem rgba(255, 79, 216, 0.2))
+    drop-shadow(0 1.6rem 2.8rem rgba(0, 0, 0, 0.5));
+}
+
+.hero-avatar-image {
+  position: relative;
+  z-index: 2;
+  width: clamp(34rem, 34vw, 40rem);
+  height: auto;
+  max-height: calc(100svh - var(--header-height) + 5rem);
+  object-fit: contain;
+  transform: translate(-4rem, 4rem);
+  filter:
+    drop-shadow(-0.55rem 0 0 rgba(255, 79, 216, 0.42))
+    drop-shadow(0.55rem 0 0 rgba(66, 248, 255, 0.36))
+    drop-shadow(0 1.7rem 2.6rem rgba(0, 0, 0, 0.44));
+  image-rendering: auto;
+}
+
+@media (min-width: 1181px) {
+  /* Desktop: escena fija para que el boceto no se desmonte en pantallas anchas. */
+  .hero-section {
+    /* Acercamos la escena al header para recuperar la composicion del boceto. */
+    padding-top: calc(var(--header-height) + 2rem);
+  }
+
+  .hero-grid {
+    display: block;
+    position: relative;
+    /* Lienzo desktop: mas ancho que antes para que no se vea todo mini en 1920px. */
+    width: min(1720px, calc(100vw - 3rem));
+    height: calc(100svh - var(--header-height) - 2rem);
+    min-height: 0;
+    margin: 0 auto;
+  }
+/*contenedor del titulo, subtitulo y texto del hero.*/
+  .hero-copy {
+    position: absolute;
+    top: 6rem;
+    left: 5rem;
+    max-width: 39rem;
+    gap: 1.1rem;
+    padding-bottom: 0;
+    transform: none;
+  }
+
+  .hero-title {
+    /* Titulo protagonista: grande, como pieza principal del Hero. */
+    font-size: clamp(6.2rem, 5.8vw, 7.35rem);
+    line-height: 0.86;
+  }
+
+  .hero-subtitle {
+    max-width: 43rem;
+    font-size: clamp(1.55rem, 1.62vw, 2rem);
+    line-height: 1.35;
+  }
+
+  .hero-text {
+    max-width: 32rem;
+    gap: 1.35rem;
+    margin-top: 1.45rem;
+    font-size: clamp(1.08rem, 1.05vw, 1.25rem);
+    line-height: 1.45rem;
+  }
+
+  .hero-visual {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    /* Bloque visual grande: avatar delante y maquina detras. */
+    width: 64rem;
+    height: min(58rem, calc(100svh - var(--header-height) - 2rem));
+    min-height: 0;
+  }
+
+  .hero-game-screen {
+    top: 0rem;
+    right: 0;
+    left: 25rem;
+    width: 30rem;
+  }
+
+  .hero-avatar-image {
+    width:47rem;
+    max-height: none;
+    transform: translate(-4rem, 4rem);
+  }
+}
+
+@media (max-width: 1180px) {
+  .hero-grid {
+    grid-template-columns: minmax(430px, 0.94fr) minmax(330px, 0.74fr);
+  }
+
+  .hero-copy {
+    max-width: 690px;
+  }
+
+  .hero-title {
+    font-size: clamp(4.4rem, 8.4vw, 7.1rem);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+  }
+
+  .hero-text {
+    max-width: 620px;
+    font-size: clamp(0.98rem, 1.5vw, 1.12rem);
+  }
+
+  .hero-left-rail {
+    height: clamp(24rem, 50vh, 32rem);
+  }
+
+  .hero-visual {
+    min-height: clamp(30rem, 54vh, 39rem);
+  }
+
+  .hero-game-screen {
+    top: clamp(5rem, 10vh, 7rem);
+    right: clamp(-3.5rem, -5vw, -2rem);
+    width: clamp(15rem, 28vw, 22rem);
+  }
+
+  .hero-avatar-image {
+    width: clamp(30rem, 46vw, 44rem);
+    transform: translate(-9vw, 12vh);
+  }
+}
+
+@media (max-width: 820px) {
+  .hero-grid {
+    display: grid;
+    min-height: auto;
+    align-content: start;
+    gap: 1.75rem;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-section {
+    min-height: 100svh;
+    overflow: hidden;
+    padding-top: calc(4rem + 3.1rem);
+    background-position: center right 36%;
+  }
+
+  .hero-left-rail {
+    display: none;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+    gap: 0.95rem;
+    padding-bottom: 0;
+  }
+
+  .hero-title {
+    font-size: clamp(3.2rem, 17vw, 5.4rem);
+    line-height: 0.88;
+  }
+
+  .hero-subtitle {
+    max-width: 34rem;
+    font-size: clamp(1.05rem, 5vw, 1.45rem);
+    line-height: 1.35;
+  }
+
+  .hero-text {
+    max-width: 36rem;
+    gap: 0.9rem;
+    margin-top: 0.35rem;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .hero-visual {
+    min-height: clamp(26rem, 72vw, 34rem);
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-game-screen {
+    top: 0.6rem;
+    right: 50%;
+    width: min(18rem, 62vw);
+    transform: translateX(72%);
+    opacity: 0.72;
+  }
+
+  .hero-avatar-image {
+    width: min(30rem, 94vw);
+    max-height: none;
+    transform: translate(0, 9vh);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(2.85rem, 18vw, 4.15rem);
+  }
+
+  .hero-text {
+    font-size: 0.92rem;
+  }
+
+  .hero-game-screen {
+    width: min(16rem, 66vw);
+    transform: translateX(74%);
+  }
+
+  .hero-avatar-image {
+    width: min(27rem, 102vw);
+    transform: translate(0, 8vh);
+  }
+}
