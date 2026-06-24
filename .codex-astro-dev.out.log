@@ -1,0 +1,43 @@
+
+> portfolio-pablo@0.0.1 dev
+> astro dev --host 127.0.0.1 --port 4322
+
+[vite] connected.
+[2m13:04:10[22m [34m[types][39m Generated [2m1ms[22m
+[42m[1m astro [22m[49m [32mv6.4.4[39m [2mready in[22m 1644 [2mms[22m
+[2m┃[22m Local    [36mhttp://127.0.0.1:4322/[39m
+[2m13:04:10[22m [32mwatching for file changes...[39m
+[2m13:04:28[22m [34m[200][39m / [2m25ms[22m
+[vite] program reload
+[vite] An error happened during full reload
+Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?
+Error: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?
+    at loadAndTransform (file:///C:/Users/pablo/Desktop/Porfolio/portfolio-pablo/node_modules/vite/dist/node/chunks/config.js:22739:33)
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload
+[vite] program reload

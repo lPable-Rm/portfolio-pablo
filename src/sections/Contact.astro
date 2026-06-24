@@ -1,30 +1,78 @@
-<!-- Contacto: cierre directo, simple y con estetica de terminal. -->
-<section class="section section--last" id="contacto" aria-labelledby="contact-title">
-  <div class="section-shell contact-grid">
-    <!-- Texto de contexto breve; el foco real esta en los enlaces de la terminal. -->
-    <div class="section-heading">
-      <p class="pixel-label">FINAL STAGE</p>
-      <h2 class="section-title" id="contact-title">Contacto</h2>
-      <p class="section-intro">
-        Una terminal simple para encontrar estado, enlaces y vias de contacto.
-      </p>
+<!-- Contacto: cierre directo del portfolio con una terminal arcade estatica. -->
+<section class="section section--last contact-section" id="contacto" aria-labelledby="contact-title">
+  <div class="section-shell contact-shell">
+    <header class="section-heading contact-heading">
+      <div class="contact-title-row">
+        <span class="contact-heart" aria-hidden="true">&#9829;</span>
+        <h2 class="section-title contact-title" id="contact-title">Contacto</h2>
+        <span class="contact-heart" aria-hidden="true">&#9829;</span>
+      </div>
+      <p class="section-intro contact-subtitle">¿Creamos algo juntos?</p>
+    </header>
+
+    <div class="contact-terminal-wrap">
+      <div class="terminal-panel contact-terminal" role="group" aria-label="Terminal de contacto">
+        <div class="contact-terminal__bar">
+          <p class="contact-terminal__host">
+            <span aria-hidden="true">&gt;</span>
+            pablo@portfolio:~
+          </p>
+          <div class="contact-terminal__lights" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div class="contact-terminal__body">
+          <div class="terminal-entry">
+            <p class="terminal-command"><span aria-hidden="true">&gt;</span> whoami</p>
+            <p class="terminal-answer">
+              Pablo — Desarrollador creativo con mentalidad <strong>fullstack</strong>
+            </p>
+          </div>
+
+          <div class="terminal-entry">
+            <p class="terminal-command"><span aria-hidden="true">&gt;</span> status</p>
+            <p class="terminal-answer terminal-answer--status">
+              Disponible para nuevas oportunidades
+            </p>
+          </div>
+
+          <div class="terminal-entry">
+            <p class="terminal-command"><span aria-hidden="true">&gt;</span> contact</p>
+            <a class="terminal-answer terminal-answer--email" href="mailto:pablo@email.com">
+              pablo@email.com
+            </a>
+          </div>
+
+          <div class="terminal-entry terminal-entry--links">
+            <p class="terminal-command"><span aria-hidden="true">&gt;</span> links</p>
+            <div class="terminal-links">
+              <a class="terminal-link terminal-link--github" href="https://github.com/" rel="noreferrer" target="_blank">
+                <span class="terminal-link__icon terminal-link__icon--github" aria-hidden="true">&lt;/&gt;</span>
+                <span>GitHub</span>
+              </a>
+              <a class="terminal-link terminal-link--linkedin" href="https://www.linkedin.com/" rel="noreferrer" target="_blank">
+                <span class="terminal-link__icon terminal-link__icon--linkedin" aria-hidden="true">in</span>
+                <span>LinkedIn</span>
+              </a>
+              <a class="terminal-link terminal-link--cv" href="/assets/cv/pablo-cv.pdf" download>
+                <span class="terminal-link__icon terminal-link__icon--cv" aria-hidden="true"></span>
+                <span>Descargar CV</span>
+              </a>
+            </div>
+          </div>
+
+          <p class="terminal-cursor" aria-hidden="true">&gt; <span>_</span></p>
+        </div>
+      </div>
     </div>
 
-    <!-- Panel semantico con enlaces reales para email, GitHub, LinkedIn y CV. -->
-    <div class="terminal-panel" aria-label="Terminal de contacto">
-      <p><span>&gt; whoami</span>Pablo - Desarrollador creativo con mentalidad fullstack</p>
-      <p><span>&gt; status</span>Disponible para nuevas oportunidades</p>
-      <p>
-        <span>&gt; contact</span>
-        <a href="mailto:pablo@email.com">pablo@email.com</a>
-      </p>
-      <p>
-        <span>&gt; links</span>
-        <a href="https://github.com/" rel="noreferrer" target="_blank">GitHub</a>
-        <a href="https://www.linkedin.com/" rel="noreferrer" target="_blank">LinkedIn</a>
-        <a href="/assets/cv/pablo-cv.pdf" download>Descargar CV</a>
-      </p>
-      <p><span>&gt; _</span></p>
-    </div>
+    <p class="contact-hiring-status" aria-label="Estado de contratacion: disponible">
+      <span>Hiring mode:</span>
+      <span class="contact-hiring-status__light" aria-hidden="true"></span>
+      <strong>On</strong>
+    </p>
   </div>
 </section>

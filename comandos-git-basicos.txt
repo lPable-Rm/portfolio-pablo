@@ -1,0 +1,142 @@
+COMANDOS BASICOS DE GIT PARA SUBIR Y ACTUALIZAR EL PORTFOLIO
+=============================================================
+
+Ubicarse dentro del proyecto
+----------------------------
+
+cd C:\Users\pablo\Desktop\Porfolio\portfolio-pablo
+
+
+Ver el estado del repositorio
+-----------------------------
+
+git status
+
+Sirve para ver que archivos han cambiado, cuales estan pendientes de subir
+y si hay archivos nuevos que Git todavia no esta siguiendo.
+
+
+Preparar cambios para commit
+----------------------------
+
+git add .
+
+Anade todos los cambios del proyecto al siguiente commit.
+
+Si quieres anadir solo un archivo concreto:
+
+git add ruta/del/archivo
+
+
+Crear un commit
+---------------
+
+git commit -m "Descripcion corta del cambio"
+
+Ejemplo:
+
+git commit -m "Actualizar seccion de proyectos"
+
+
+Subir cambios a GitHub
+----------------------
+
+git push
+
+Si es la primera vez que subes una rama nueva:
+
+git push -u origin main
+
+
+Flujo habitual para actualizar el repo
+--------------------------------------
+
+git status
+git add .
+git commit -m "Descripcion corta del cambio"
+git push
+
+
+Comprobar a que repositorio remoto estas conectado
+--------------------------------------------------
+
+git remote -v
+
+
+Conectar el proyecto a GitHub por primera vez
+---------------------------------------------
+
+git remote add origin https://github.com/lPable-Rm/portfolio-pablo.git
+
+
+Cambiar la rama actual a main
+-----------------------------
+
+git branch -M main
+
+
+Traer cambios desde GitHub
+--------------------------
+
+git pull
+
+Usalo si has hecho cambios desde GitHub o desde otro ordenador antes de
+seguir trabajando en local.
+
+
+Ver historial de commits
+------------------------
+
+git log --oneline
+
+
+Ver diferencias antes de guardar cambios
+----------------------------------------
+
+git diff
+
+Muestra los cambios que todavia no has preparado con git add.
+
+
+Ver diferencias ya preparadas para commit
+-----------------------------------------
+
+git diff --cached
+
+
+Quitar un archivo del area de commit sin borrarlo
+-------------------------------------------------
+
+git restore --staged ruta/del/archivo
+
+Ejemplo:
+
+git restore --staged .codex-astro-dev.out.log
+
+
+Archivos que normalmente NO deberias subir
+------------------------------------------
+
+.codex-astro-dev.err.log
+.codex-astro-dev.out.log
+node_modules/
+dist/
+
+
+Comando recomendado antes de subir
+----------------------------------
+
+npm run build
+
+Si la build funciona, es buena senal antes de hacer commit y push.
+
+
+Resumen rapido
+--------------
+
+cd C:\Users\pablo\Desktop\Porfolio\portfolio-pablo
+npm run build
+git status
+git add .
+git commit -m "Actualizar portfolio"
+git push
