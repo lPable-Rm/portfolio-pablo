@@ -1,54 +1,149 @@
-/* Mi viaje: frame del futuro juego, timeline y enlace de CV. */
-.game-frame {
-  overflow: hidden;
-  border: 1px solid rgba(66, 248, 255, 0.28);
-  border-radius: 8px;
-  background: var(--color-surface);
-  box-shadow: var(--shadow-cyan);
-}
-
-.game-frame__top {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.8rem 1rem;
-  color: var(--color-yellow);
-  background: rgba(5, 7, 17, 0.9);
-  font-size: 0.75rem;
-  font-weight: 800;
-}
-
-.game-placeholder {
-  display: grid;
-  min-height: clamp(18rem, 42vw, 30rem);
-  place-items: center;
-  align-content: center;
-  gap: 0.75rem;
-  padding: 2rem;
-  color: var(--color-muted);
+/* Fondo, timeline y enlace propios de la seccion Mi viaje. */
+#viaje {
+  /* Fondo narrativo de la seccion: gimnasio, piscina, almacen y zona dev. */
   background:
-    linear-gradient(rgba(246, 247, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(246, 247, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(135deg, rgba(66, 248, 255, 0.12), rgba(255, 79, 216, 0.08));
-  background-size: 28px 28px, 28px 28px, auto;
+    linear-gradient(
+      180deg,
+      rgba(3, 6, 18, 0.78) 0%,
+      rgba(3, 6, 18, 0.54) 48%,
+      rgba(3, 6, 18, 0.76) 100%
+    ),
+    url("/assets/backgrounds/fondoSeccionMiviaje.png") center / cover no-repeat;
 }
 
-.game-placeholder p {
-  margin: 0;
+/* La imagen ya incluye estrellas; evitamos duplicar la capa comun del sitio. */
+#viaje::before {
+  opacity: 0;
 }
 
-.timeline-strip {
+/* Cabecera centrada que conecta visualmente con la seccion de Proyectos. */
+.journey-heading {
+  max-width: none;
+  justify-items: center;
+  gap: 0.55rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.35rem);
+  text-align: center;
+}
+
+.journey-title-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  margin: 1.3rem 0 1.5rem;
-  color: var(--color-text);
-  font-size: 0.75rem;
-  font-weight: 600;
+  align-items: center;
+  justify-content: center;
+  gap: 1.35rem;
 }
 
-.timeline-strip span {
-  border: 1px solid rgba(255, 230, 109, 0.28);
-  padding: 0.6rem 0.75rem;
-  background: rgba(255, 230, 109, 0.08);
+.journey-title {
+  margin: 0;
+  color: transparent;
+  background: linear-gradient(90deg, var(--color-cyan), #7cdfff 44%, var(--color-magenta) 88%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter:
+    drop-shadow(0.18rem 0.18rem 0 rgba(255, 79, 216, 0.3))
+    drop-shadow(0 0 0.45rem rgba(66, 248, 255, 0.16));
+  font-size: clamp(3rem, 6.3vh, 4.15rem);
+  text-transform: uppercase;
+}
+
+.journey-heart {
+  color: var(--color-magenta);
+  font-family: var(--font-pixel);
+  font-size: clamp(1.1rem, 2.15vh, 1.45rem);
+  line-height: 1;
+  text-shadow:
+    0.1rem 0.1rem 0 rgba(66, 248, 255, 0.38),
+    0 0 0.45rem rgba(255, 79, 216, 0.42);
+  transform: translateY(-0.2rem);
+}
+
+.journey-subtitle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: min(46rem, 100%);
+}
+
+.journey-subtitle {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--color-cyan);
+  font-family: var(--font-pixel);
+  font-size: clamp(0.78rem, 1.75vh, 1.05rem);
+  line-height: 1.2;
+  text-shadow: 0 0 0.35rem rgba(66, 248, 255, 0.34);
+}
+
+.journey-subtitle-line {
+  display: block;
+  width: min(11rem, 22vw);
+  height: 2px;
+  background:
+    linear-gradient(90deg, transparent, var(--color-cyan) 18%, var(--color-purple) 66%, transparent),
+    linear-gradient(90deg, transparent 0 14%, var(--color-magenta) 14% 18%, transparent 18% 100%);
+  box-shadow:
+    0 0 0.35rem rgba(66, 248, 255, 0.28),
+    0 0 0.5rem rgba(255, 79, 216, 0.18);
+}
+
+/* Desktop compacto: reduce el bloque completo cuando falta altura vertical. */
+@media (min-width: 821px) and (max-height: 900px) {
+  #viaje {
+    padding-top: calc(var(--header-height) + 1.15rem);
+    padding-bottom: 1.15rem;
+  }
+
+  .journey-heading {
+    gap: 0.35rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .journey-title-row {
+    gap: 1rem;
+  }
+
+  .journey-title {
+    font-size: clamp(2.45rem, 5vh, 3.25rem);
+  }
+
+  .journey-heart {
+    font-size: clamp(0.92rem, 1.7vh, 1.12rem);
+  }
+
+  .journey-subtitle {
+    font-size: clamp(0.65rem, 1.35vh, 0.78rem);
+  }
+
+  .pixel-button {
+    min-height: 2.35rem;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 820px) {
+  .journey-title-row {
+    gap: 0.8rem;
+  }
+
+  .journey-title {
+    font-size: 3.1rem;
+  }
+
+  .journey-heart {
+    font-size: 1.15rem;
+  }
+
+  .journey-subtitle-row {
+    gap: 0.7rem;
+  }
+
+  .journey-subtitle {
+    font-size: 0.72rem;
+  }
+
+  .journey-subtitle-line {
+    width: min(4.5rem, 18vw);
+  }
+
 }

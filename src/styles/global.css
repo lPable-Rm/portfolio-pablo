@@ -5,6 +5,7 @@
 @import "./neon.css";
 @import "./layout.css";
 @import "./header.css";
+@import "./components/game-console.css";
 @import "./sections/hero.css";
 @import "./sections/journey.css";
 @import "./sections/projects.css";

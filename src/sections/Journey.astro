@@ -1,40 +1,32 @@
+---
+// Componemos la seccion con una carcasa Astro y el montaje React de Phaser.
+import GameConsole from "../components/game/GameConsole.astro";
+import GameWrapper from "../components/game/GameWrapper";
+---
+
 <!-- Mi viaje: seccion reservada para el mini juego narrativo con Phaser. -->
 <section class="section section--panel" id="viaje" aria-labelledby="journey-title">
   <div class="section-shell">
-    <!-- Cabecera comun de seccion: etiqueta pixel, titulo y descripcion corta. -->
-    <div class="section-heading">
-      <p class="pixel-label">LEVEL 01</p>
-      <h2 class="section-title" id="journey-title">Mi viaje</h2>
-      <p class="section-intro">
-        Un mini juego narrativo ira contando el camino hasta desbloquear a
-        Pablo Dev.
-      </p>
-    </div>
-
-    <!-- Placeholder del juego. La estructura ya deja espacio para montar Phaser despues. -->
-    <div class="game-frame" aria-label="Marco del mini juego">
-      <div class="game-frame__top">
-        <span>JOURNEY.EXE</span>
-        <span>HIRING MODE: ON</span>
+    <!-- Cabecera centrada con el mismo lenguaje arcade de Proyectos. -->
+    <div class="section-heading journey-heading">
+      <div class="journey-title-row">
+        <span class="journey-heart" aria-hidden="true">&#9829;</span>
+        <h2 class="section-title journey-title" id="journey-title">Mi viaje</h2>
+        <span class="journey-heart" aria-hidden="true">&#9829;</span>
       </div>
-      <div class="game-placeholder">
-        <p class="pixel-label">PHASER GAME SLOT</p>
-        <p>Prototipo del juego en preparacion.</p>
+
+      <div class="journey-subtitle-row">
+        <span class="journey-subtitle-line" aria-hidden="true"></span>
+        <p class="section-intro journey-subtitle">
+          LEVEL 01 · TODO EMPEZO CON CURIOSIDAD
+        </p>
+        <span class="journey-subtitle-line" aria-hidden="true"></span>
       </div>
     </div>
 
-    <!-- Fallback accesible: resume el viaje aunque el juego no cargue o no se juegue. -->
-    <div class="timeline-strip" aria-label="Linea temporal resumida">
-      <span>Curiosidad</span>
-      <span>Deporte</span>
-      <span>Socorrista</span>
-      <span>Trabajo + estudio</span>
-      <span>Pablo Dev</span>
-    </div>
-
-    <!-- El archivo PDF real se colocara mas adelante en public/assets/cv/. -->
-    <a class="pixel-button" href="/assets/cv/pablo-cv.pdf" download>
-      Descargar CV
-    </a>
+    <!-- La carcasa recibe el componente React que crea el canvas de Phaser. -->
+    <GameConsole>
+      <GameWrapper client:only="react" />
+    </GameConsole>
   </div>
 </section>

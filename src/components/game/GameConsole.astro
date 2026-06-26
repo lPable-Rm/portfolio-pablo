@@ -1,0 +1,17 @@
+<!--
+  La carcasa es una imagen decorativa. El slot recibe GameWrapper y coloca
+  el canvas de Phaser encima de la pantalla negra de la imagen.
+-->
+<div class="game-console-art" role="group" aria-label="Consola retro de Pablo Quest">
+  <img
+    class="game-console-art__frame"
+    src="/assets/images/bocetocarcasa-removebg.png"
+    alt=""
+    aria-hidden="true"
+  />
+
+  <!-- Zona funcional: solo este rectangulo contiene el juego Phaser. -->
+  <div class="game-console-art__screen">
+    <slot />
+  </div>
+</div>

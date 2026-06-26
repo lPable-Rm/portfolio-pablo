@@ -164,6 +164,43 @@
   }
 }
 
+/* Cabecera mas compacta en portatiles con poco espacio vertical. */
+@media (min-width: 821px) and (max-height: 900px) {
+  :root {
+    --header-height: 56px;
+  }
+
+  .site-header {
+    top: 0.6rem;
+  }
+
+  .site-nav {
+    min-height: var(--header-height);
+    border-radius: 14px;
+    padding-inline: clamp(1rem, 2vw, 1.8rem);
+  }
+
+  .brand-mark {
+    gap: 0.65rem;
+    font-size: clamp(1rem, 1.65vw, 1.35rem);
+  }
+
+  .nav-links {
+    gap: 0.7rem;
+  }
+
+  .nav-links a {
+    min-height: 2rem;
+    padding: 0.4rem 0.55rem;
+    font-size: clamp(0.72rem, 0.85vw, 0.84rem);
+  }
+
+  .nav-icon {
+    min-width: 1.1rem;
+    font-size: 0.62rem;
+  }
+}
+
 @media (max-width: 820px) {
   .site-header {
     top: 0.65rem;
