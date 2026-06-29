@@ -15,10 +15,52 @@ import { Hud } from "../ui/Hud";
 const PLAYER_SPEED = 240;
 const JUMP_VELOCITY = -460;
 
+// Escala visual temporal del sprite.
+// El cuerpo fisico sigue siendo el rectangulo invisible; esto solo agranda el dibujo.
+const PLAYER_SPRITE_SCALE = 1.6;
+
+const PABLITO_SMALL_IDLE_ANIMATION = "pablito-small-idle";
+const PABLITO_SMALL_WALK_ANIMATION = "pablito-small-walk";
+const PABLITO_SMALL_IDLE_FRAMES = [
+  {
+    key: "pablito-small-idle-1",
+    url: "/assets/game/player/pablito-small/idle-1-test-32.png",
+  },
+  {
+    key: "pablito-small-idle-2",
+    url: "/assets/game/player/pablito-small/idle-2-test-32.png",
+  },
+];
+const PABLITO_SMALL_WALK_FRAMES = [
+  {
+    key: "pablito-small-walk-1",
+    url: "/assets/game/player/pablito-small/walk-1-test-32.png",
+  },
+  {
+    key: "pablito-small-walk-2",
+    url: "/assets/game/player/pablito-small/walk-2-test-32.png",
+  },
+  {
+    key: "pablito-small-walk-3",
+    url: "/assets/game/player/pablito-small/walk-3-test-32.png",
+  },
+  {
+    key: "pablito-small-walk-4",
+    url: "/assets/game/player/pablito-small/walk-4-test-32.png",
+  },
+];
+
+// Pequenas ayudas de control para que el salto se sienta justo:
+// - coyote time: deja saltar un instante despues de perder el suelo.
+// - jump buffer: recuerda el salto si se pulsa justo antes de tocar suelo.
+const COYOTE_TIME_MS = 140;
+const JUMP_BUFFER_MS = 140;
+
 export class JourneyScene extends Phaser.Scene {
   // Jugador placeholder y su cuerpo fisico Arcade.
   private player!: Phaser.GameObjects.Rectangle;
   private playerBody!: Phaser.Physics.Arcade.Body;
+  private playerSprite!: Phaser.GameObjects.Sprite;
 
   // Suelo segmentado: deja un hueco entre las dos zonas de plataforma.
   private platforms: Phaser.GameObjects.Rectangle[] = [];
@@ -55,6 +97,10 @@ export class JourneyScene extends Phaser.Scene {
   private jumpKey!: Phaser.Input.Keyboard.Key;
   private menuKey!: Phaser.Input.Keyboard.Key;
 
+  // Guardan los ultimos momentos relevantes para calcular el salto tolerante.
+  private lastGroundedAt = Number.NEGATIVE_INFINITY;
+  private lastJumpPressedAt = Number.NEGATIVE_INFINITY;
+
   // Estados narrativos pedidos para las dos primeras zonas.
   private introDialogueShown = false;
   private hasWeightPower = false;
@@ -83,6 +129,20 @@ export class JourneyScene extends Phaser.Scene {
 
   constructor() {
     super("JourneyScene");
+  }
+
+  // Cargamos los sprites temporales del jugador desde public/assets.
+  preload() {
+    const playerFrames = [
+      ...PABLITO_SMALL_IDLE_FRAMES,
+      ...PABLITO_SMALL_WALK_FRAMES,
+    ];
+
+    for (const frame of playerFrames) {
+      if (!this.textures.exists(frame.key)) {
+        this.load.image(frame.key, frame.url);
+      }
+    }
   }
 
   // Phaser llama a create una sola vez cuando arranca la escena.
@@ -126,6 +186,7 @@ export class JourneyScene extends Phaser.Scene {
   // Phaser llama a update en cada fotograma.
   update() {
     this.updatePlayerMovement();
+    this.updatePlayerSprite();
     this.updateFloatAura();
     this.checkBlockBridge();
     this.checkPoolRespawn();
@@ -166,6 +227,8 @@ export class JourneyScene extends Phaser.Scene {
     this.pabloDevPowerShown = false;
     this.finalDialogueShown = false;
     this.blockIsBridge = false;
+    this.lastGroundedAt = Number.NEGATIVE_INFINITY;
+    this.lastJumpPressedAt = Number.NEGATIVE_INFINITY;
   }
 
   // Pablito pequeno: una forma temporal hasta disponer de su spritesheet.
@@ -184,6 +247,82 @@ export class JourneyScene extends Phaser.Scene {
 
     // Permitimos caer para poder detectar el hueco y reaparecer de forma segura.
     this.playerBody.setCollideWorldBounds(false);
+
+    // El rectangulo sigue siendo el cuerpo fisico, pero no lo dibujamos.
+    // Encima colocamos el sprite temporal para probar el estilo visual.
+    this.player.setVisible(false);
+    this.createPlayerSprite();
+  }
+
+  // Crea las animaciones temporales de prueba usando frames sueltos.
+  private createPlayerSprite() {
+    this.createPlayerAnimation(
+      PABLITO_SMALL_IDLE_ANIMATION,
+      PABLITO_SMALL_IDLE_FRAMES,
+      3,
+    );
+    this.createPlayerAnimation(
+      PABLITO_SMALL_WALK_ANIMATION,
+      PABLITO_SMALL_WALK_FRAMES,
+      8,
+    );
+
+    this.playerSprite = this.add
+      .sprite(this.player.x, this.getPlayerFeetY(), "pablito-small-idle-1")
+      .setOrigin(0.5, 1)
+      .setScale(PLAYER_SPRITE_SCALE)
+      .setDepth(5);
+
+    this.playerSprite.play(PABLITO_SMALL_IDLE_ANIMATION);
+  }
+
+  private createPlayerAnimation(
+    key: string,
+    frames: typeof PABLITO_SMALL_IDLE_FRAMES,
+    frameRate: number,
+  ) {
+    if (this.anims.exists(key)) {
+      return;
+    }
+
+    this.anims.create({
+      key,
+      frames: frames.map((frame) => ({ key: frame.key })),
+      frameRate,
+      repeat: -1,
+    });
+  }
+
+  // Mantiene el sprite visual pegado al cuerpo fisico invisible y cambia animacion.
+  private updatePlayerSprite() {
+    if (!this.playerSprite) {
+      return;
+    }
+
+    this.playerSprite.setPosition(this.player.x, this.getPlayerFeetY());
+    this.updatePlayerSpriteAnimation();
+
+    // El sprite original mira a la derecha; al movernos a la izquierda lo invertimos.
+    if (this.playerBody.velocity.x !== 0) {
+      this.playerSprite.setFlipX(this.playerBody.velocity.x < 0);
+    }
+  }
+
+  // De momento solo probamos idle y caminar; jump/fall vendran despues.
+  private updatePlayerSpriteAnimation() {
+    const isWalking =
+      Math.abs(this.playerBody.velocity.x) > 5 && this.isPlayerTouchingGround();
+    const nextAnimation = isWalking
+      ? PABLITO_SMALL_WALK_ANIMATION
+      : PABLITO_SMALL_IDLE_ANIMATION;
+
+    if (this.playerSprite.anims.currentAnim?.key !== nextAnimation) {
+      this.playerSprite.play(nextAnimation);
+    }
+  }
+
+  private getPlayerFeetY(): number {
+    return this.player.y + this.player.displayHeight / 2;
   }
 
   // La pesa se dibuja con formas; el rectangulo invisible detecta la recogida.
@@ -416,11 +555,24 @@ export class JourneyScene extends Phaser.Scene {
       this.playerBody.setVelocityX(0);
     }
 
-    if (
-      Phaser.Input.Keyboard.JustDown(this.jumpKey) &&
-      this.isPlayerOnGround()
-    ) {
+    // Usamos el tiempo interno de Phaser para comparar ventanas de milisegundos.
+    const now = this.time.now;
+
+    // Actualizamos el ultimo contacto con suelo, incluyendo el bloque empujable.
+    if (this.isPlayerTouchingGround()) {
+      this.lastGroundedAt = now;
+    }
+
+    // Guardamos la pulsacion de salto aunque Phaser aun no detecte suelo perfecto.
+    if (Phaser.Input.Keyboard.JustDown(this.jumpKey)) {
+      this.lastJumpPressedAt = now;
+    }
+
+    // El salto ocurre si se cumplen las dos ventanas: suelo reciente + input reciente.
+    if (this.canPlayerJump(now)) {
       this.playerBody.setVelocityY(JUMP_VELOCITY);
+      this.lastGroundedAt = Number.NEGATIVE_INFINITY;
+      this.lastJumpPressedAt = Number.NEGATIVE_INFINITY;
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.menuKey)) {
@@ -723,7 +875,40 @@ export class JourneyScene extends Phaser.Scene {
     this.scene.start("StartScene");
   }
 
-  private isPlayerOnGround(): boolean {
-    return this.playerBody.blocked.down || this.playerBody.touching.down;
+  // Decide si puede saltar usando coyote time y jump buffer.
+  private canPlayerJump(now: number): boolean {
+    const hasRecentGroundContact = now - this.lastGroundedAt <= COYOTE_TIME_MS;
+    const hasRecentJumpInput = now - this.lastJumpPressedAt <= JUMP_BUFFER_MS;
+
+    return hasRecentGroundContact && hasRecentJumpInput;
+  }
+
+  // Detecta suelo normal y tambien apoyo sobre el bloque dinamico.
+  private isPlayerTouchingGround(): boolean {
+    return (
+      this.playerBody.blocked.down ||
+      this.playerBody.touching.down ||
+      this.isPlayerStandingOnBlock()
+    );
+  }
+
+  // El bloque empujable puede dar contactos inestables en Arcade Physics.
+  // Por eso hacemos una comprobacion geometrica extra cuando el jugador esta encima.
+  private isPlayerStandingOnBlock(): boolean {
+    if (!this.block?.active || !this.blockBody) {
+      return false;
+    }
+
+    const playerBounds = this.player.getBounds();
+    const blockBounds = this.block.getBounds();
+    const hasHorizontalOverlap =
+      playerBounds.right > blockBounds.left + 3 &&
+      playerBounds.left < blockBounds.right - 3;
+    const isPlayerOverBlock =
+      playerBounds.bottom >= blockBounds.top - 6 &&
+      playerBounds.bottom <= blockBounds.top + 12;
+    const isNotMovingUp = this.playerBody.velocity.y >= 0;
+
+    return hasHorizontalOverlap && isPlayerOverBlock && isNotMovingUp;
   }
 }
