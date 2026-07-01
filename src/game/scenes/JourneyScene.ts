@@ -21,6 +21,14 @@ const PLAYER_SPRITE_SCALE = 1.6;
 
 const PABLITO_SMALL_IDLE_ANIMATION = "pablito-small-idle";
 const PABLITO_SMALL_WALK_ANIMATION = "pablito-small-walk";
+const PABLITO_SMALL_JUMP_FRAME = {
+  key: "pablito-small-jump",
+  url: "/assets/game/player/pablito-small/jump-test-32.png",
+};
+const PABLITO_SMALL_FALL_FRAME = {
+  key: "pablito-small-fall",
+  url: "/assets/game/player/pablito-small/fall-test-32.png",
+};
 const PABLITO_SMALL_IDLE_FRAMES = [
   {
     key: "pablito-small-idle-1",
@@ -136,6 +144,8 @@ export class JourneyScene extends Phaser.Scene {
     const playerFrames = [
       ...PABLITO_SMALL_IDLE_FRAMES,
       ...PABLITO_SMALL_WALK_FRAMES,
+      PABLITO_SMALL_JUMP_FRAME,
+      PABLITO_SMALL_FALL_FRAME,
     ];
 
     for (const frame of playerFrames) {
@@ -308,15 +318,35 @@ export class JourneyScene extends Phaser.Scene {
     }
   }
 
-  // De momento solo probamos idle y caminar; jump/fall vendran despues.
+  // Cambia entre idle, caminar, salto y caida segun el estado fisico del jugador.
   private updatePlayerSpriteAnimation() {
+    const isJumping = this.playerBody.velocity.y < -20;
+    const isFalling =
+      this.playerBody.velocity.y > 20 && !this.isPlayerTouchingGround();
+
+    if (isJumping) {
+      this.playerSprite.stop();
+      this.playerSprite.setTexture(PABLITO_SMALL_JUMP_FRAME.key);
+      return;
+    }
+
+    if (isFalling) {
+      this.playerSprite.stop();
+      this.playerSprite.setTexture(PABLITO_SMALL_FALL_FRAME.key);
+      return;
+    }
+
     const isWalking =
       Math.abs(this.playerBody.velocity.x) > 5 && this.isPlayerTouchingGround();
     const nextAnimation = isWalking
       ? PABLITO_SMALL_WALK_ANIMATION
       : PABLITO_SMALL_IDLE_ANIMATION;
+    const currentAnimation = this.playerSprite.anims.currentAnim?.key;
+    const animationIsStopped = !this.playerSprite.anims.isPlaying;
 
-    if (this.playerSprite.anims.currentAnim?.key !== nextAnimation) {
+    // Si venimos de jump/fall, la animacion esta parada aunque currentAnim
+    // pueda seguir apuntando a idle/walk. Por eso tambien comprobamos isPlaying.
+    if (animationIsStopped || currentAnimation !== nextAnimation) {
       this.playerSprite.play(nextAnimation);
     }
   }
