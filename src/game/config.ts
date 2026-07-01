@@ -15,6 +15,6 @@ export const START_SCREEN_BACKGROUND = {
 } as const;
 
 export const CV_FILE = {
-  url: "/assets/cv/pablo-cv.pdf",
-  fileName: "pablo-cv.pdf",
+  url: "/assets/cv/CV_PabloRamosMelianLite.pdf",
+  fileName: "CV_PabloRamosMelianLite.pdf",
 } as const;
