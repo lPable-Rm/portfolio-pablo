@@ -1,5 +1,6 @@
 // Helpers para construir partes visuales/estaticas del nivel.
 import Phaser from "phaser";
+import { JOURNEY_BACKGROUNDS } from "../assets/journeyBackgrounds";
 import { FIRST_JOURNEY_SECTION } from "../data/level";
 
 type ArcadeScene = Phaser.Scene & {
@@ -7,6 +8,36 @@ type ArcadeScene = Phaser.Scene & {
 };
 
 type PlatformList = Phaser.GameObjects.Rectangle[];
+
+const BACKGROUND_DISTANCE_SCALE = 0.96;
+const BACKGROUND_SCROLL_FACTOR_X = 0.82;
+
+// Coloca los fondos nuevos como paneles del mundo para recuperar movimiento.
+export function createJourneyBackgrounds(scene: Phaser.Scene) {
+  const targetHeight =
+    FIRST_JOURNEY_SECTION.worldHeight * BACKGROUND_DISTANCE_SCALE;
+  const bottomY = FIRST_JOURNEY_SECTION.worldHeight;
+  let x = 0;
+  let index = 0;
+
+  while (x < FIRST_JOURNEY_SECTION.worldWidth) {
+    const background = JOURNEY_BACKGROUNDS[index % JOURNEY_BACKGROUNDS.length];
+    const source = scene.textures.get(background.key).getSourceImage();
+    const scale = targetHeight / source.height;
+    const displayWidth = source.width * scale;
+
+    // Origin abajo-izquierda: el horizonte queda estable respecto al suelo.
+    scene.add
+      .image(x, bottomY, background.key)
+      .setOrigin(0, 1)
+      .setScrollFactor(BACKGROUND_SCROLL_FACTOR_X, 1)
+      .setDisplaySize(displayWidth, targetHeight)
+      .setDepth(-30);
+
+    x += displayWidth;
+    index += 1;
+  }
+}
 
 // Fondo provisional de estrellas sobre el mundo entero.
 export function createStars(scene: Phaser.Scene) {
@@ -46,20 +77,7 @@ export function createGround(scene: ArcadeScene, platforms: PlatformList) {
     platforms.push(platform);
   }
 
-  // Etiqueta placeholder para hacer visible el objetivo del bloque.
-  scene.add
-    .text(
-      FIRST_JOURNEY_SECTION.gap.centerX,
-      FIRST_JOURNEY_SECTION.groundY - 24,
-      "HUECO",
-      {
-        color: "#ff4fd8",
-        fontFamily: "monospace",
-        fontSize: "14px",
-      },
-    )
-    .setOrigin(0.5, 1)
-    .setAlpha(0.72);
+  // El hueco se entiende por la geometria del nivel, sin rotulos visibles.
 }
 
 // Escalera ascendente que representa el esfuerzo de trabajar y estudiar.
@@ -120,13 +138,4 @@ export function createPool(scene: Phaser.Scene) {
     0.66,
   );
   water.setStrokeStyle(2, 0x42f8ff, 0.9);
-
-  scene.add
-    .text(centerX, waterY - 8, "PISCINA", {
-      color: "#42f8ff",
-      fontFamily: "monospace",
-      fontSize: "14px",
-    })
-    .setOrigin(0.5)
-    .setAlpha(0.82);
 }

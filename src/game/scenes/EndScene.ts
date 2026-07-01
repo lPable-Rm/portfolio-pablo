@@ -1,6 +1,8 @@
 // Pantalla final del juego con cierre narrativo y rutas utiles del portfolio.
 import Phaser from "phaser";
+import { stopGameMusic } from "../audio/gameMusic";
 import { GAME_SIZE, START_SCREEN_BACKGROUND } from "../config";
+import { MuteButton } from "../ui/MuteButton";
 
 type EndMenuOption = "projects" | "contact" | "menu";
 const END_SCREEN_FONT = '"Pixelify Sans", monospace';
@@ -16,6 +18,7 @@ export class EndScene extends Phaser.Scene {
   private menuTexts: Record<EndMenuOption, Phaser.GameObjects.Text> | null =
     null;
   private finalMessageText!: Phaser.GameObjects.Text;
+  private muteButton?: MuteButton;
 
   constructor() {
     super("EndScene");
@@ -37,7 +40,12 @@ export class EndScene extends Phaser.Scene {
     this.createTitle();
     this.createMessagePanel();
     this.createControls();
+    this.muteButton = new MuteButton(this);
     this.startTypewriterEffect();
+  }
+
+  update() {
+    this.muteButton?.update();
   }
 
   private createBackground() {
@@ -269,12 +277,14 @@ export class EndScene extends Phaser.Scene {
       return;
     }
 
+    stopGameMusic(this);
     this.scene.start("StartScene");
   }
 
   private goToPageSection(sectionId: string) {
     const targetSection = document.getElementById(sectionId);
 
+    stopGameMusic(this);
     window.location.hash = sectionId;
     targetSection?.scrollIntoView({ behavior: "smooth", block: "start" });
   }

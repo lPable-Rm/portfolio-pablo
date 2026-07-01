@@ -25,4 +25,8 @@ export class DialogueBox {
   show(message: string) {
     this.text.setText(message);
   }
+
+  clear() {
+    this.text.setText("");
+  }
 }

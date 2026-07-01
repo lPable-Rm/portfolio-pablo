@@ -1,6 +1,12 @@
 // Pantalla inicial del juego: portada "Press Start" y menu principal.
 import Phaser from "phaser";
+import {
+  preloadGameMusic,
+  startGameMusic,
+  stopGameMusic,
+} from "../audio/gameMusic";
 import { CV_FILE, GAME_SIZE, START_SCREEN_BACKGROUND } from "../config";
+import { MuteButton } from "../ui/MuteButton";
 
 type StartScreenState = "cover" | "menu" | "instructions";
 type MenuOption = "start" | "instructions" | "cv";
@@ -12,6 +18,7 @@ export class StartScene extends Phaser.Scene {
   private selectedOption: MenuOption = "start";
   private uiObjects: Phaser.GameObjects.GameObject[] = [];
   private menuTexts: Record<MenuOption, Phaser.GameObjects.Text> | null = null;
+  private muteButton?: MuteButton;
 
   constructor() {
     super("StartScene");
@@ -22,9 +29,13 @@ export class StartScene extends Phaser.Scene {
     if (!this.textures.exists(START_SCREEN_BACKGROUND.key)) {
       this.load.image(START_SCREEN_BACKGROUND.key, START_SCREEN_BACKGROUND.url);
     }
+
+    preloadGameMusic(this);
   }
 
   create() {
+    stopGameMusic(this);
+
     this.canInteract = false;
     this.screenState = "cover";
     this.selectedOption = "start";
@@ -34,10 +45,15 @@ export class StartScene extends Phaser.Scene {
     this.createTitle();
     this.createCoverScreen();
     this.createControls();
+    this.muteButton = new MuteButton(this);
 
     this.time.delayedCall(250, () => {
       this.canInteract = true;
     });
+  }
+
+  update() {
+    this.muteButton?.update();
   }
 
   // La imagen se escala para cubrir todo el canvas sin deformarse.
@@ -281,6 +297,7 @@ export class StartScene extends Phaser.Scene {
     }
 
     if (this.screenState === "cover") {
+      startGameMusic(this);
       this.screenState = "menu";
       this.createMenuScreen();
       return;
@@ -334,6 +351,7 @@ export class StartScene extends Phaser.Scene {
 
   private activateSelectedOption() {
     if (this.selectedOption === "start") {
+      startGameMusic(this);
       this.scene.start("JourneyScene");
       return;
     }

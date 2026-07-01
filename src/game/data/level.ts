@@ -79,7 +79,7 @@ export const FIRST_JOURNEY_SECTION = {
       y: 384,
     },
     finish: {
-      x: 5320,
+      x: 5480,
       y: 318,
     },
     platforms: [
