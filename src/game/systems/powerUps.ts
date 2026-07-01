@@ -1,66 +1,120 @@
-// Efectos visuales temporales de power-up.
-// Cuando lleguen los sprites finales, estos helpers seran el punto de cambio.
+// Feedback visual corto al recoger objetos y desbloquear habilidades.
 import Phaser from "phaser";
 
-type PlaceholderPlayer = Phaser.GameObjects.Rectangle;
+type PickupFeedbackOptions = {
+  label: string;
+  sparkColor: number;
+  playerSprite: Phaser.GameObjects.Sprite;
+  visuals: Phaser.GameObjects.GameObject[];
+};
 
-export function playWeightPowerPlaceholder(
+const FLOAT_TEXT_OFFSET_X = 28;
+const FLOAT_TEXT_OFFSET_Y = -50;
+const FLOAT_TEXT_COLOR = "#42f8ff";
+
+export function playPickupFeedback(
   scene: Phaser.Scene,
-  player: PlaceholderPlayer,
+  player: Phaser.GameObjects.Rectangle,
+  options: PickupFeedbackOptions,
 ) {
-  player.setFillStyle(0xff4fd8);
-  player.setStrokeStyle(2, 0xffe66d, 0.95);
+  animateCollectedVisuals(scene, options.visuals);
+  pulsePlayerSprite(scene, options.playerSprite);
+  createSparkBurst(scene, player, options.sparkColor);
+
+  const text = scene.add
+    .text(
+      player.x + FLOAT_TEXT_OFFSET_X,
+      player.y + FLOAT_TEXT_OFFSET_Y,
+      `+1 ${options.label}`,
+      {
+        color: FLOAT_TEXT_COLOR,
+        fontFamily: "monospace",
+        fontSize: "13px",
+        fontStyle: "bold",
+      },
+    )
+    .setOrigin(0, 0.5)
+    .setDepth(30);
+
+  text.setShadow(0, 0, FLOAT_TEXT_COLOR, 8, true, true);
+
   scene.tweens.add({
-    targets: player,
-    scaleX: 1.28,
-    scaleY: 1.2,
-    duration: 160,
-    yoyo: true,
-    repeat: 1,
-    onComplete: () => player.setScale(1.12, 1.08),
+    targets: text,
+    y: text.y - 38,
+    alpha: 0,
+    scaleX: 1.12,
+    scaleY: 1.12,
+    duration: 1200,
+    ease: "Cubic.easeOut",
+    onComplete: () => text.destroy(),
   });
 }
 
-export function createFloatAuraPlaceholder(
+function animateCollectedVisuals(
   scene: Phaser.Scene,
-  player: PlaceholderPlayer,
-): Phaser.GameObjects.Graphics {
-  const aura = scene.add.graphics();
-  player.setStrokeStyle(2, 0x42f8ff, 1);
-
-  return aura;
-}
-
-export function playWorkStudyPowerPlaceholder(
-  scene: Phaser.Scene,
-  player: PlaceholderPlayer,
+  visuals: Phaser.GameObjects.GameObject[],
 ) {
-  player.setFillStyle(0xffb45b);
-  player.setStrokeStyle(2, 0xffe66d, 1);
+  if (visuals.length === 0) {
+    return;
+  }
+
   scene.tweens.add({
-    targets: player,
-    scaleX: 1.24,
-    scaleY: 1.16,
-    duration: 160,
-    yoyo: true,
-    repeat: 1,
-    onComplete: () => player.setScale(1.16, 1.1),
+    targets: visuals,
+    y: "-=20",
+    alpha: 0,
+    scaleX: "*=1.12",
+    scaleY: "*=1.12",
+    duration: 260,
+    ease: "Back.easeIn",
+    onComplete: () => {
+      visuals.forEach((visual) => visual.destroy());
+    },
   });
 }
 
-export function playPabloDevPowerPlaceholder(
+function pulsePlayerSprite(
   scene: Phaser.Scene,
-  player: PlaceholderPlayer,
+  playerSprite: Phaser.GameObjects.Sprite,
 ) {
-  player.setFillStyle(0xf6f7ff);
-  player.setStrokeStyle(3, 0x42f8ff, 1);
+  const startScaleX = playerSprite.scaleX;
+  const startScaleY = playerSprite.scaleY;
+
   scene.tweens.add({
-    targets: player,
-    scaleX: 1.32,
-    scaleY: 1.22,
-    duration: 170,
+    targets: playerSprite,
+    scaleX: startScaleX * 1.08,
+    scaleY: startScaleY * 1.08,
+    duration: 110,
+    ease: "Sine.easeOut",
     yoyo: true,
-    repeat: 2,
-    onComplete: () => player.setScale(1.18, 1.1),
+    onComplete: () => playerSprite.setScale(startScaleX, startScaleY),
   });
+}
+
+function createSparkBurst(
+  scene: Phaser.Scene,
+  player: Phaser.GameObjects.Rectangle,
+  color: number,
+) {
+  const originX = player.x + 22;
+  const originY = player.y - 30;
+  const angles = [-64, -24, 18, 54];
+
+  for (const angle of angles) {
+    const spark = scene.add
+      .rectangle(originX, originY, 4, 4, color, 0.95)
+      .setAngle(45)
+      .setDepth(29);
+    const radians = Phaser.Math.DegToRad(angle);
+    const distance = 22;
+
+    scene.tweens.add({
+      targets: spark,
+      x: originX + Math.cos(radians) * distance,
+      y: originY + Math.sin(radians) * distance,
+      alpha: 0,
+      duration: 360,
+      ease: "Cubic.easeOut",
+      onComplete: () => spark.destroy(),
+    });
+  }
 }

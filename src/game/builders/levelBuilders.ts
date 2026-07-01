@@ -3,6 +3,7 @@ import Phaser from "phaser";
 import { JOURNEY_BACKGROUNDS } from "../assets/journeyBackgrounds";
 import {
   JOURNEY_GROUND_SPRITE,
+  JOURNEY_PLATFORM_SPRITE,
   JOURNEY_POOL_SPRITE,
 } from "../assets/journeyEnvironmentSprites";
 import { FIRST_JOURNEY_SECTION } from "../data/level";
@@ -18,6 +19,9 @@ const BACKGROUND_SCROLL_FACTOR_X = 0.82;
 const GROUND_SPRITE_DISPLAY_HEIGHT = 132;
 const GROUND_SPRITE_WIDTH_PAD = 28;
 const GROUND_SPRITE_Y_OFFSET = -16;
+const PLATFORM_SPRITE_WIDTH_MULTIPLIER = 1.18;
+const PLATFORM_SPRITE_DISPLAY_HEIGHT = 108;
+const PLATFORM_SPRITE_Y_OFFSET = -8;
 const POOL_DISPLAY_WIDTH_MULTIPLIER = 1.18;
 const POOL_DISPLAY_HEIGHT = 126;
 const POOL_Y_OFFSET = -18;
@@ -91,43 +95,62 @@ export function createWorkStudyPlatforms(
   platforms: PlatformList,
 ) {
   for (const platformData of FIRST_JOURNEY_SECTION.workStudy.platforms) {
+    // La colision sigue siendo un rectangulo limpio; el sprite solo viste la plataforma.
     const platform = scene.add.rectangle(
       platformData.x,
       platformData.y,
       platformData.width,
       platformData.height,
-      0x5a3c2d,
+      0xffffff,
+      0,
     );
 
-    platform.setStrokeStyle(2, 0xffb45b, 0.9);
     scene.physics.add.existing(platform, true);
     platforms.push(platform);
+
+    scene.add
+      .image(
+        platformData.x,
+        platformData.y + PLATFORM_SPRITE_Y_OFFSET,
+        JOURNEY_PLATFORM_SPRITE.key,
+      )
+      .setOrigin(0.5)
+      .setDisplaySize(
+        platformData.width * PLATFORM_SPRITE_WIDTH_MULTIPLIER,
+        PLATFORM_SPRITE_DISPLAY_HEIGHT,
+      )
+      .setDepth(3);
   }
 }
 
-// Plataformas finales con color mas tecnologico: placeholder de la etapa Dev.
+// Plataformas finales de la etapa Dev.
 export function createDevPlatforms(scene: ArcadeScene, platforms: PlatformList) {
   for (const platformData of FIRST_JOURNEY_SECTION.dev.platforms) {
+    // La colision queda independiente para ajustar el arte sin romper el salto.
     const platform = scene.add.rectangle(
       platformData.x,
       platformData.y,
       platformData.width,
       platformData.height,
-      0x11234a,
+      0xffffff,
+      0,
     );
 
-    platform.setStrokeStyle(2, 0x42f8ff, 0.9);
     scene.physics.add.existing(platform, true);
     platforms.push(platform);
 
-    scene.add.rectangle(
-      platformData.x,
-      platformData.y - 2,
-      platformData.width - 24,
-      3,
-      0xff4fd8,
-      0.35,
-    );
+    scene.add
+      .image(
+        platformData.x,
+        platformData.y + PLATFORM_SPRITE_Y_OFFSET,
+        JOURNEY_PLATFORM_SPRITE.key,
+      )
+      .setOrigin(0.5)
+      .setDisplaySize(
+        platformData.width * PLATFORM_SPRITE_WIDTH_MULTIPLIER,
+        PLATFORM_SPRITE_DISPLAY_HEIGHT,
+      )
+      .setDepth(3);
   }
 }
 

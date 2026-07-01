@@ -36,12 +36,7 @@ import {
   shouldShowSportDialogue,
   shouldShowWorkStudyDialogue,
 } from "../systems/dialogueTriggers";
-import {
-  createFloatAuraPlaceholder,
-  playPabloDevPowerPlaceholder,
-  playWeightPowerPlaceholder,
-  playWorkStudyPowerPlaceholder,
-} from "../systems/powerUps";
+import { playPickupFeedback } from "../systems/powerUps";
 import {
   respawnIfPlayerEnteredPool,
   respawnIfPlayerFell,
@@ -71,10 +66,9 @@ export class JourneyScene extends Phaser.Scene {
   private weightPickup!: Phaser.GameObjects.Rectangle;
   private weightVisuals: Phaser.GameObjects.GameObject[] = [];
 
-  // Flotador, plataforma invisible de agua y aro visual tras recogerlo.
+  // Flotador y plataforma invisible de agua tras recogerlo.
   private floatPickup!: Phaser.GameObjects.Rectangle;
   private floatVisuals: Phaser.GameObjects.GameObject[] = [];
-  private floatAura?: Phaser.GameObjects.Graphics;
 
   // Items de la zona de trabajo + estudio.
   private boxPickup!: Phaser.GameObjects.Rectangle;
@@ -153,7 +147,6 @@ export class JourneyScene extends Phaser.Scene {
     this.updatePlayerMovement();
     this.updatePlayerSprite();
     this.updateBlockVisual();
-    this.updateFloatAura();
     this.checkBlockBridge();
     this.checkPoolRespawn();
     this.checkFallRespawn();
@@ -172,7 +165,6 @@ export class JourneyScene extends Phaser.Scene {
     this.boxVisuals = [];
     this.notebookVisuals = [];
     this.laptopVisuals = [];
-    this.floatAura = undefined;
     this.pushBlock = undefined;
     this.state = createInitialJourneyState();
     this.controls = new PlatformerControls(this);
@@ -331,9 +323,7 @@ export class JourneyScene extends Phaser.Scene {
     this.state.weightCollected = true;
     this.hud.setStat("discipline", 1);
     this.weightPickup.destroy();
-    this.weightVisuals.forEach((visual) => visual.destroy());
-
-    playWeightPowerPlaceholder(this, this.player);
+    this.showPickupFeedback("DISCIPLINA", 0xffe66d, this.weightVisuals);
 
     // El bloque aparece tras el power-up y nace listo para recibir empujes.
     this.createBlock();
@@ -353,10 +343,8 @@ export class JourneyScene extends Phaser.Scene {
     this.state.floatCollected = true;
     this.hud.setStat("calm", 1);
     this.floatPickup.destroy();
-    this.floatVisuals.forEach((visual) => visual.destroy());
+    this.showPickupFeedback("CALMA", 0x42f8ff, this.floatVisuals);
     this.createPoolCrossingPlatform();
-
-    this.floatAura = createFloatAuraPlaceholder(this, this.player);
 
     if (!this.state.floatDialogueShown) {
       this.state.floatDialogueShown = true;
@@ -371,7 +359,11 @@ export class JourneyScene extends Phaser.Scene {
 
     this.state.boxCollected = true;
     this.boxPickup.destroy();
-    this.boxVisuals.forEach((visual) => visual.destroy());
+    this.showPickupFeedback(
+      this.state.notebookCollected ? "ORGANIZACION" : "TRABAJO",
+      0xffb45b,
+      this.boxVisuals,
+    );
     this.showDialogue(JOURNEY_DIALOGUE.box);
     this.activateWorkStudyPower();
   }
@@ -383,7 +375,11 @@ export class JourneyScene extends Phaser.Scene {
 
     this.state.notebookCollected = true;
     this.notebookPickup.destroy();
-    this.notebookVisuals.forEach((visual) => visual.destroy());
+    this.showPickupFeedback(
+      this.state.boxCollected ? "ORGANIZACION" : "ESTUDIO",
+      0xffb45b,
+      this.notebookVisuals,
+    );
     this.showDialogue(JOURNEY_DIALOGUE.notebook);
     this.activateWorkStudyPower();
   }
@@ -396,7 +392,7 @@ export class JourneyScene extends Phaser.Scene {
 
     this.state.laptopCollected = true;
     this.laptopPickup.destroy();
-    this.laptopVisuals.forEach((visual) => visual.destroy());
+    this.showPickupFeedback("DEV", 0x42f8ff, this.laptopVisuals);
     this.showDialogue(JOURNEY_DIALOGUE.laptop);
     this.activatePabloDevPower();
   }
@@ -413,7 +409,6 @@ export class JourneyScene extends Phaser.Scene {
 
     this.state.hasWorkStudyPower = true;
     this.hud.setStat("organization", 1);
-    playWorkStudyPowerPlaceholder(this, this.player);
 
     if (!this.state.workStudyPowerShown) {
       this.state.workStudyPowerShown = true;
@@ -429,7 +424,6 @@ export class JourneyScene extends Phaser.Scene {
 
     this.state.isPabloDev = true;
     this.hud.setStat("dev", 1);
-    playPabloDevPowerPlaceholder(this, this.player);
 
     if (!this.state.pabloDevPowerShown) {
       this.state.pabloDevPowerShown = true;
@@ -595,24 +589,6 @@ export class JourneyScene extends Phaser.Scene {
     });
   }
 
-  // Redibuja el aro del flotador alrededor del jugador sin usar sprites finales.
-  private updateFloatAura() {
-    if (!this.floatAura) {
-      return;
-    }
-
-    const bobOffset = this.getPoolFloatBobOffset();
-
-    this.floatAura.clear();
-    this.floatAura.setDepth(7);
-    this.floatAura.lineStyle(3, 0x42f8ff, 0.9);
-    this.floatAura.strokeCircle(
-      this.player.x,
-      this.player.y + 8 + bobOffset,
-      24,
-    );
-  }
-
   // Movimiento visual suave al cruzar la piscina con el flotador activo.
   private getPoolFloatBobOffset(): number {
     if (!this.state.floatCollected || !this.isPlayerOverPool()) {
@@ -630,6 +606,19 @@ export class JourneyScene extends Phaser.Scene {
     const { startX, endX } = FIRST_JOURNEY_SECTION.pool;
 
     return this.player.x > startX && this.player.x < endX;
+  }
+
+  private showPickupFeedback(
+    label: string,
+    sparkColor: number,
+    visuals: Phaser.GameObjects.GameObject[],
+  ) {
+    playPickupFeedback(this, this.player, {
+      label,
+      sparkColor,
+      playerSprite: this.playerEntity.sprite,
+      visuals,
+    });
   }
 
   private showDialogue(message: string) {
