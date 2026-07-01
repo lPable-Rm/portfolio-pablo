@@ -9,9 +9,9 @@ type PlayerBodyObject = Phaser.GameObjects.Rectangle;
 export function respawnIfPlayerEnteredPool(
   player: PlayerBodyObject,
   playerBody: Phaser.Physics.Arcade.Body,
-  hasFloatPower: boolean,
+  floatCollected: boolean,
 ) {
-  if (hasFloatPower) {
+  if (floatCollected) {
     return;
   }
 

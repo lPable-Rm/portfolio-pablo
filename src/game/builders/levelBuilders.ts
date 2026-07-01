@@ -1,6 +1,10 @@
 // Helpers para construir partes visuales/estaticas del nivel.
 import Phaser from "phaser";
 import { JOURNEY_BACKGROUNDS } from "../assets/journeyBackgrounds";
+import {
+  JOURNEY_GROUND_SPRITE,
+  JOURNEY_POOL_SPRITE,
+} from "../assets/journeyEnvironmentSprites";
 import { FIRST_JOURNEY_SECTION } from "../data/level";
 
 type ArcadeScene = Phaser.Scene & {
@@ -11,6 +15,15 @@ type PlatformList = Phaser.GameObjects.Rectangle[];
 
 const BACKGROUND_DISTANCE_SCALE = 0.96;
 const BACKGROUND_SCROLL_FACTOR_X = 0.82;
+const GROUND_SPRITE_DISPLAY_HEIGHT = 132;
+const GROUND_SPRITE_WIDTH_PAD = 28;
+const GROUND_SPRITE_Y_OFFSET = -16;
+const POOL_DISPLAY_WIDTH_MULTIPLIER = 1.18;
+const POOL_DISPLAY_HEIGHT = 126;
+const POOL_Y_OFFSET = -18;
+const POOL_WATER_WIDTH_MULTIPLIER = 0.72;
+const POOL_WATER_HEIGHT = 34;
+const POOL_WATER_Y_OFFSET = -20;
 
 // Coloca los fondos nuevos como paneles del mundo para recuperar movimiento.
 export function createJourneyBackgrounds(scene: Phaser.Scene) {
@@ -39,42 +52,34 @@ export function createJourneyBackgrounds(scene: Phaser.Scene) {
   }
 }
 
-// Fondo provisional de estrellas sobre el mundo entero.
-export function createStars(scene: Phaser.Scene) {
-  for (let index = 0; index < 70; index += 1) {
-    const size = Phaser.Math.Between(1, 3);
-
-    scene.add
-      .rectangle(
-        Phaser.Math.Between(0, FIRST_JOURNEY_SECTION.worldWidth),
-        Phaser.Math.Between(
-          24,
-          FIRST_JOURNEY_SECTION.worldHeight -
-            FIRST_JOURNEY_SECTION.groundHeight -
-            24,
-        ),
-        size,
-        size,
-        0x8feeff,
-      )
-      .setAlpha(Phaser.Math.FloatBetween(0.35, 0.9));
-  }
-}
-
 // Crea el suelo plano y los tramos alrededor de los huecos/piscina.
 export function createGround(scene: ArcadeScene, platforms: PlatformList) {
   for (const segment of FIRST_JOURNEY_SECTION.groundSegments) {
+    // La fisica se mantiene igual que antes; el sprite es solo decorativo.
     const platform = scene.add.rectangle(
       segment.x,
       segment.y,
       segment.width,
       segment.height,
-      0x152238,
+      0xffffff,
+      0,
     );
 
-    platform.setStrokeStyle(2, 0x42f8ff, 0.55);
     scene.physics.add.existing(platform, true);
     platforms.push(platform);
+
+    scene.add
+      .image(
+        segment.x,
+        segment.y + GROUND_SPRITE_Y_OFFSET,
+        JOURNEY_GROUND_SPRITE.key,
+      )
+      .setOrigin(0.5)
+      .setDisplaySize(
+        segment.width + GROUND_SPRITE_WIDTH_PAD,
+        GROUND_SPRITE_DISPLAY_HEIGHT,
+      )
+      .setDepth(2);
   }
 
   // El hueco se entiende por la geometria del nivel, sin rotulos visibles.
@@ -129,13 +134,30 @@ export function createDevPlatforms(scene: ArcadeScene, platforms: PlatformList) 
 // Piscina visual. Solo gana una plataforma fisica tras recoger el flotador.
 export function createPool(scene: Phaser.Scene) {
   const { centerX, waterY, width } = FIRST_JOURNEY_SECTION.pool;
-  const water = scene.add.rectangle(
-    centerX,
-    waterY,
-    width,
-    FIRST_JOURNEY_SECTION.groundHeight,
-    0x168fd0,
-    0.66,
-  );
-  water.setStrokeStyle(2, 0x42f8ff, 0.9);
+  const displayWidth = width * POOL_DISPLAY_WIDTH_MULTIPLIER;
+  const poolY = waterY + POOL_Y_OFFSET;
+
+  // El sprite queda hundido respecto al suelo; la fisica sigue en su sitio.
+  scene.add
+    .image(centerX, poolY, JOURNEY_POOL_SPRITE.key)
+    .setOrigin(0.5)
+    .setDisplaySize(displayWidth, POOL_DISPLAY_HEIGHT)
+    .setDepth(1);
+
+  const waterWidth = displayWidth * POOL_WATER_WIDTH_MULTIPLIER;
+  const surfaceY = poolY + POOL_WATER_Y_OFFSET;
+  const surface = scene.add
+    .rectangle(centerX, surfaceY, waterWidth, POOL_WATER_HEIGHT, 0x42f8ff, 0.18)
+    .setDepth(6);
+
+  // La lamina superior ayuda a que Pablito parezca entrar dentro del agua.
+  scene.tweens.add({
+    targets: surface,
+    alpha: { from: 0.16, to: 0.3 },
+    y: surfaceY + 2,
+    duration: 1200,
+    ease: "Sine.easeInOut",
+    yoyo: true,
+    repeat: -1,
+  });
 }

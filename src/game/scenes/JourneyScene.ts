@@ -2,6 +2,7 @@
 import Phaser from "phaser";
 import { stopGameMusic } from "../audio/gameMusic";
 import { preloadJourneyBackgrounds } from "../assets/journeyBackgrounds";
+import { preloadJourneyEnvironmentSprites } from "../assets/journeyEnvironmentSprites";
 import { preloadJourneyItemSprites } from "../assets/journeyItemSprites";
 import {
   createDevPlatforms,
@@ -48,6 +49,9 @@ import {
 import { DialogueBox } from "../ui/DialogueBox";
 import { Hud } from "../ui/Hud";
 import { MuteButton } from "../ui/MuteButton";
+
+const POOL_FLOAT_SINK_OFFSET = 40;
+const POOL_FLOAT_BOB_AMOUNT = 3;
 
 export class JourneyScene extends Phaser.Scene {
   // Jugador placeholder y su cuerpo fisico Arcade.
@@ -100,6 +104,7 @@ export class JourneyScene extends Phaser.Scene {
   // Cargamos los sprites temporales del jugador desde public/assets.
   preload() {
     preloadJourneyBackgrounds(this);
+    preloadJourneyEnvironmentSprites(this);
     preloadPlayerAssets(this);
     preloadJourneyItemSprites(this);
   }
@@ -186,6 +191,7 @@ export class JourneyScene extends Phaser.Scene {
   // Mantiene el sprite visual pegado al cuerpo fisico invisible y cambia animacion.
   private updatePlayerSprite() {
     this.playerEntity.update(this.isPlayerTouchingGround());
+    this.playerEntity.sprite.y += this.getPoolFloatBobOffset();
   }
 
   // La pesa usa sprite; el rectangulo invisible detecta la recogida.
@@ -287,7 +293,6 @@ export class JourneyScene extends Phaser.Scene {
     );
     this.physics.add.existing(startWall, true);
     this.physics.add.collider(this.player, startWall);
-
   }
 
   private createControls() {
@@ -324,7 +329,6 @@ export class JourneyScene extends Phaser.Scene {
     }
 
     this.state.weightCollected = true;
-    this.state.hasWeightPower = true;
     this.hud.setStat("discipline", 1);
     this.weightPickup.destroy();
     this.weightVisuals.forEach((visual) => visual.destroy());
@@ -347,7 +351,6 @@ export class JourneyScene extends Phaser.Scene {
     }
 
     this.state.floatCollected = true;
-    this.state.hasFloatPower = true;
     this.hud.setStat("calm", 1);
     this.floatPickup.destroy();
     this.floatVisuals.forEach((visual) => visual.destroy());
@@ -367,7 +370,6 @@ export class JourneyScene extends Phaser.Scene {
     }
 
     this.state.boxCollected = true;
-    this.state.hasBox = true;
     this.boxPickup.destroy();
     this.boxVisuals.forEach((visual) => visual.destroy());
     this.showDialogue(JOURNEY_DIALOGUE.box);
@@ -380,7 +382,6 @@ export class JourneyScene extends Phaser.Scene {
     }
 
     this.state.notebookCollected = true;
-    this.state.hasNotebook = true;
     this.notebookPickup.destroy();
     this.notebookVisuals.forEach((visual) => visual.destroy());
     this.showDialogue(JOURNEY_DIALOGUE.notebook);
@@ -394,7 +395,6 @@ export class JourneyScene extends Phaser.Scene {
     }
 
     this.state.laptopCollected = true;
-    this.state.hasLaptop = true;
     this.laptopPickup.destroy();
     this.laptopVisuals.forEach((visual) => visual.destroy());
     this.showDialogue(JOURNEY_DIALOGUE.laptop);
@@ -404,8 +404,8 @@ export class JourneyScene extends Phaser.Scene {
   // Al reunir trabajo y estudio, el jugador desbloquea un nuevo estado visual.
   private activateWorkStudyPower() {
     if (
-      !this.state.hasBox ||
-      !this.state.hasNotebook ||
+      !this.state.boxCollected ||
+      !this.state.notebookCollected ||
       this.state.hasWorkStudyPower
     ) {
       return;
@@ -423,7 +423,7 @@ export class JourneyScene extends Phaser.Scene {
 
   // Estado final del placeholder: Pablo Dev, sin sprite definitivo todavia.
   private activatePabloDevPower() {
-    if (!this.state.hasLaptop || this.state.isPabloDev) {
+    if (!this.state.laptopCollected || this.state.isPabloDev) {
       return;
     }
 
@@ -441,7 +441,7 @@ export class JourneyScene extends Phaser.Scene {
 
   // Si el bloque cae centrado en el hueco, queda fijo como puente temporal.
   private checkBlockBridge() {
-    if (!this.state.hasWeightPower || this.state.blockIsBridge) {
+    if (!this.state.weightCollected || this.state.blockIsBridge) {
       return;
     }
 
@@ -472,7 +472,7 @@ export class JourneyScene extends Phaser.Scene {
     respawnIfPlayerEnteredPool(
       this.player,
       this.playerBody,
-      this.state.hasFloatPower,
+      this.state.floatCollected,
     );
   }
 
@@ -499,7 +499,7 @@ export class JourneyScene extends Phaser.Scene {
       !shouldShowLifeguardDialogue(
         this.player.x,
         this.state.lifeguardDialogueShown,
-        this.state.hasFloatPower,
+        this.state.floatCollected,
       )
     ) {
       return;
@@ -601,9 +601,35 @@ export class JourneyScene extends Phaser.Scene {
       return;
     }
 
+    const bobOffset = this.getPoolFloatBobOffset();
+
     this.floatAura.clear();
+    this.floatAura.setDepth(7);
     this.floatAura.lineStyle(3, 0x42f8ff, 0.9);
-    this.floatAura.strokeCircle(this.player.x, this.player.y + 8, 24);
+    this.floatAura.strokeCircle(
+      this.player.x,
+      this.player.y + 8 + bobOffset,
+      24,
+    );
+  }
+
+  // Movimiento visual suave al cruzar la piscina con el flotador activo.
+  private getPoolFloatBobOffset(): number {
+    if (!this.state.floatCollected || !this.isPlayerOverPool()) {
+      return 0;
+    }
+
+    // Hundimos solo el sprite para que parezca que flota dentro del agua.
+    return (
+      POOL_FLOAT_SINK_OFFSET +
+      Math.sin(this.time.now / 160) * POOL_FLOAT_BOB_AMOUNT
+    );
+  }
+
+  private isPlayerOverPool(): boolean {
+    const { startX, endX } = FIRST_JOURNEY_SECTION.pool;
+
+    return this.player.x > startX && this.player.x < endX;
   }
 
   private showDialogue(message: string) {

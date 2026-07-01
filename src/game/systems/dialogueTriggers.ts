@@ -14,11 +14,11 @@ export function shouldShowSportDialogue(
 export function shouldShowLifeguardDialogue(
   playerX: number,
   alreadyShown: boolean,
-  hasFloatPower: boolean,
+  floatCollected: boolean,
 ) {
   return (
     !alreadyShown &&
-    hasFloatPower &&
+    floatCollected &&
     playerX >= FIRST_JOURNEY_SECTION.lifeguardDialogueTriggerX
   );
 }
