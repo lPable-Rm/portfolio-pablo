@@ -44,8 +44,16 @@ function ProjectActionLink({
     );
   }
 
+  const href = action.href ?? "#";
+  const isExternalLink = href.startsWith("http");
+
   return (
-    <a className={className} href={action.href ?? "#"}>
+    <a
+      className={className}
+      href={href}
+      rel={isExternalLink ? "noreferrer" : undefined}
+      target={isExternalLink ? "_blank" : undefined}
+    >
       <span className="project-action-icon" aria-hidden="true" />
       {action.label}
     </a>

@@ -364,7 +364,6 @@ export class JourneyScene extends Phaser.Scene {
       0xffb45b,
       this.boxVisuals,
     );
-    this.showDialogue(JOURNEY_DIALOGUE.box);
     this.activateWorkStudyPower();
   }
 
@@ -380,7 +379,6 @@ export class JourneyScene extends Phaser.Scene {
       0xffb45b,
       this.notebookVisuals,
     );
-    this.showDialogue(JOURNEY_DIALOGUE.notebook);
     this.activateWorkStudyPower();
   }
 
@@ -393,7 +391,6 @@ export class JourneyScene extends Phaser.Scene {
     this.state.laptopCollected = true;
     this.laptopPickup.destroy();
     this.showPickupFeedback("DEV", 0x42f8ff, this.laptopVisuals);
-    this.showDialogue(JOURNEY_DIALOGUE.laptop);
     this.activatePabloDevPower();
   }
 

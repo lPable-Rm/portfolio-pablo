@@ -53,8 +53,11 @@ export const projects: PortfolioProject[] = [
     },
     actions: [
       { href: "#", label: "Ver demo", variant: "primary" },
-      { href: "#", label: "GitHub" },
-      { href: "#", label: "Ver caso" },
+      { href: "https://github.com/lPable-Rm/Restaurante_chatBot", label: "GitHub" },
+      {
+        href: "/assets/cv/Caso_tecnico_asistente_restaurantes_Pablo_Ramos.pdf",
+        label: "Ver caso",
+      },
     ],
   },
   {
@@ -73,7 +76,7 @@ export const projects: PortfolioProject[] = [
     },
     actions: [
       { kind: "celebrate", label: "Hiring", variant: "primary" },
-      { href: "#", label: "GitHub" },
+      { href: "https://github.com/lPable-Rm/portfolio-pablo", label: "GitHub" },
       { href: "#contacto", label: "Contacto" },
     ],
   },
