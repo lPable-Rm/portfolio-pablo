@@ -1,0 +1,99 @@
+<!-- Zonas tactiles invisibles sobre la carcasa movil: cruceta y boton A. -->
+<div class="game-console-touch-overlay" aria-hidden="true">
+  <button
+    class="game-console-touch-zone game-console-touch-zone--left"
+    data-game-touch-control="left"
+    tabindex="-1"
+    type="button"
+  ></button>
+  <button
+    class="game-console-touch-zone game-console-touch-zone--right"
+    data-game-touch-control="right"
+    tabindex="-1"
+    type="button"
+  ></button>
+  <button
+    class="game-console-touch-zone game-console-touch-zone--jump"
+    data-game-touch-control="jump"
+    tabindex="-1"
+    type="button"
+  ></button>
+</div>
+
+<script>
+  const TOUCH_CONTROL_EVENT = "pablo-game-touch-control";
+  const touchZones = document.querySelectorAll("[data-game-touch-control]");
+  const pointerControls = new Map();
+  const activeControlCounts = new Map();
+
+  function emitTouchControl(control, isPressed) {
+    window.dispatchEvent(
+      new CustomEvent(TOUCH_CONTROL_EVENT, {
+        detail: {
+          control,
+          isPressed,
+        },
+      }),
+    );
+  }
+
+  function pressControl(control) {
+    const activeCount = activeControlCounts.get(control) ?? 0;
+    activeControlCounts.set(control, activeCount + 1);
+
+    if (activeCount === 0) {
+      emitTouchControl(control, true);
+    }
+  }
+
+  function releasePointer(pointerId) {
+    const control = pointerControls.get(pointerId);
+
+    if (!control) {
+      return;
+    }
+
+    pointerControls.delete(pointerId);
+    const nextCount = Math.max(0, (activeControlCounts.get(control) ?? 1) - 1);
+
+    if (nextCount === 0) {
+      activeControlCounts.delete(control);
+      emitTouchControl(control, false);
+      return;
+    }
+
+    activeControlCounts.set(control, nextCount);
+  }
+
+  touchZones.forEach((zone) => {
+    zone.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    });
+
+    zone.addEventListener("pointerdown", (event) => {
+      const control = zone.dataset.gameTouchControl;
+
+      if (!control) {
+        return;
+      }
+
+      event.preventDefault();
+      pointerControls.set(event.pointerId, control);
+      zone.setPointerCapture(event.pointerId);
+      pressControl(control);
+    });
+
+    zone.addEventListener("pointerup", (event) => {
+      event.preventDefault();
+      releasePointer(event.pointerId);
+    });
+
+    zone.addEventListener("pointercancel", (event) => {
+      releasePointer(event.pointerId);
+    });
+
+    zone.addEventListener("lostpointercapture", (event) => {
+      releasePointer(event.pointerId);
+    });
+  });
+</script>

@@ -1,6 +1,7 @@
 // Sistema de controles del platformer.
 // Guarda el estado temporal del salto tolerante para no inflar JourneyScene.
 import Phaser from "phaser";
+import type { TouchControlState } from "./touchControls";
 
 const PLAYER_SPEED = 240;
 const JUMP_VELOCITY = -460;
@@ -10,6 +11,11 @@ const JUMP_VELOCITY = -460;
 // - jump buffer: recuerda el salto si se pulsa justo antes de tocar suelo.
 const COYOTE_TIME_MS = 140;
 const JUMP_BUFFER_MS = 140;
+const EMPTY_TOUCH_CONTROLS: TouchControlState = {
+  left: false,
+  right: false,
+  jump: false,
+};
 
 type ControlScene = Phaser.Scene & {
   input: Phaser.Input.InputPlugin;
@@ -21,6 +27,7 @@ export class PlatformerControls {
   private menuKey?: Phaser.Input.Keyboard.Key;
   private lastGroundedAt = Number.NEGATIVE_INFINITY;
   private lastJumpPressedAt = Number.NEGATIVE_INFINITY;
+  private lastTouchJumpDown = false;
 
   constructor(private readonly scene: ControlScene) {}
 
@@ -47,6 +54,7 @@ export class PlatformerControls {
   resetJumpMemory() {
     this.lastGroundedAt = Number.NEGATIVE_INFINITY;
     this.lastJumpPressedAt = Number.NEGATIVE_INFINITY;
+    this.lastTouchJumpDown = false;
   }
 
   update(config: {
@@ -54,37 +62,42 @@ export class PlatformerControls {
     isTouchingGround: boolean;
     movementLocked: boolean;
     onMenu: () => void;
+    touchControls?: TouchControlState;
   }) {
-    if (!this.cursors || !this.jumpKey || !this.menuKey) {
-      return;
-    }
-
-    const { playerBody, isTouchingGround, movementLocked, onMenu } = config;
+    const {
+      playerBody,
+      isTouchingGround,
+      movementLocked,
+      onMenu,
+      touchControls = EMPTY_TOUCH_CONTROLS,
+    } = config;
 
     if (movementLocked) {
       playerBody.setVelocityX(0);
       return;
     }
 
-    this.updateHorizontalMovement(playerBody);
-    this.updateJump(playerBody, isTouchingGround);
+    this.updateHorizontalMovement(playerBody, touchControls);
+    this.updateJump(playerBody, isTouchingGround, touchControls);
 
-    if (Phaser.Input.Keyboard.JustDown(this.menuKey)) {
+    if (this.menuKey && Phaser.Input.Keyboard.JustDown(this.menuKey)) {
       onMenu();
     }
   }
 
-  private updateHorizontalMovement(playerBody: Phaser.Physics.Arcade.Body) {
-    if (!this.cursors) {
-      return;
-    }
+  private updateHorizontalMovement(
+    playerBody: Phaser.Physics.Arcade.Body,
+    touchControls: TouchControlState,
+  ) {
+    const isPressingLeft = this.cursors?.left.isDown || touchControls.left;
+    const isPressingRight = this.cursors?.right.isDown || touchControls.right;
 
-    if (this.cursors.left.isDown) {
+    if (isPressingLeft && !isPressingRight) {
       playerBody.setVelocityX(-PLAYER_SPEED);
       return;
     }
 
-    if (this.cursors.right.isDown) {
+    if (isPressingRight && !isPressingLeft) {
       playerBody.setVelocityX(PLAYER_SPEED);
       return;
     }
@@ -95,12 +108,15 @@ export class PlatformerControls {
   private updateJump(
     playerBody: Phaser.Physics.Arcade.Body,
     isTouchingGround: boolean,
+    touchControls: TouchControlState,
   ) {
-    if (!this.jumpKey) {
-      return;
-    }
-
     const now = this.scene.time.now;
+    const keyboardJumpJustPressed = this.jumpKey
+      ? Phaser.Input.Keyboard.JustDown(this.jumpKey)
+      : false;
+    const touchJumpJustPressed = touchControls.jump && !this.lastTouchJumpDown;
+
+    this.lastTouchJumpDown = touchControls.jump;
 
     // Actualizamos el ultimo contacto con suelo, incluyendo apoyos especiales.
     if (isTouchingGround) {
@@ -108,7 +124,7 @@ export class PlatformerControls {
     }
 
     // Guardamos la pulsacion aunque Phaser aun no detecte suelo perfecto.
-    if (Phaser.Input.Keyboard.JustDown(this.jumpKey)) {
+    if (keyboardJumpJustPressed || touchJumpJustPressed) {
       this.lastJumpPressedAt = now;
     }
 

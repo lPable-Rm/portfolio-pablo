@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { projects, type ProjectAction } from "../../data/projects";
+import { projects } from "../../data/projects";
+import { ProjectActionLink } from "./ProjectActionLink";
+import { ProjectMobileCarousel } from "./ProjectMobileCarousel";
 
 type ConfettiPiece = {
   color: string;
@@ -10,55 +12,6 @@ type ConfettiPiece = {
   left: number;
   size: number;
 };
-
-// Renderiza una accion del panel. Segun `kind`, puede ser un enlace normal,
-// un boton de confidencialidad o un boton que lanza confeti.
-function ProjectActionLink({
-  action,
-  onCelebrate,
-  onConfidential,
-}: {
-  action: ProjectAction;
-  onCelebrate: () => void;
-  onConfidential: () => void;
-}) {
-  const className = `project-action ${
-    action.variant === "primary" ? "project-action--primary" : ""
-  }`;
-
-  if (action.kind === "confidential") {
-    return (
-      <button className={className} type="button" onClick={onConfidential}>
-        <span className="project-action-icon" aria-hidden="true" />
-        {action.label}
-      </button>
-    );
-  }
-
-  if (action.kind === "celebrate") {
-    return (
-      <button className={className} type="button" onClick={onCelebrate}>
-        <span className="project-action-icon" aria-hidden="true" />
-        {action.label}
-      </button>
-    );
-  }
-
-  const href = action.href ?? "#";
-  const isExternalLink = href.startsWith("http");
-
-  return (
-    <a
-      className={className}
-      href={href}
-      rel={isExternalLink ? "noreferrer" : undefined}
-      target={isExternalLink ? "_blank" : undefined}
-    >
-      <span className="project-action-icon" aria-hidden="true" />
-      {action.label}
-    </a>
-  );
-}
 
 export default function ProjectCartridges() {
   // Proyecto seleccionado por defecto: el primero de la lista.
@@ -153,94 +106,107 @@ export default function ProjectCartridges() {
         </div>
       ) : null}
 
-      <div className="cartridge-grid" aria-label="Proyectos destacados">
-        {projects.map((project) => {
-          const isActive = project.id === activeProject.id;
+      {/* Vista desktop: mantiene el selector de cartuchos y el panel inferior. */}
+      <div className="projects-desktop-view">
+        <div className="cartridge-grid" aria-label="Proyectos destacados">
+          {projects.map((project) => {
+            const isActive = project.id === activeProject.id;
 
-          return (
-            // Cada cartucho es un boton real para que sea usable con teclado.
-            <button
-              aria-pressed={isActive}
-              className={`cartridge-card cartridge-card--image ${
-                isActive ? "cartridge-card--active" : ""
-              }`}
-              key={project.id}
-              onClick={() => selectProject(project.id)}
-              type="button"
-            >
-              <img
-                className="cartridge-image"
-                src={project.cartridge.src}
-                alt={project.cartridge.alt}
-                width="447"
-                height="558"
-                loading="lazy"
-                decoding="async"
+            return (
+              // Cada cartucho es un boton real para que sea usable con teclado.
+              <button
+                aria-pressed={isActive}
+                className={`cartridge-card cartridge-card--image ${
+                  isActive ? "cartridge-card--active" : ""
+                }`}
+                key={project.id}
+                onClick={() => selectProject(project.id)}
+                type="button"
+              >
+                <img
+                  className="cartridge-image"
+                  src={project.cartridge.src}
+                  alt={project.cartridge.alt}
+                  width="447"
+                  height="558"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span className="sr-only">
+                  Seleccionar proyecto {project.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <article
+          className="project-detail-panel"
+          aria-label="Detalle del proyecto seleccionado"
+          aria-live="polite"
+        >
+          <div className="project-detail-preview">
+            <img
+              src={activeProject.cartridge.src}
+              alt={`Vista del proyecto ${activeProject.label}`}
+              width="447"
+              height="558"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div className="project-detail-copy">
+            <p className="pixel-label">PROJECT DATA LOADED</p>
+            <h3>{activeProject.title}</h3>
+            {activeProject.description.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+
+          <div className="project-detail-meta">
+            <div>
+              <p className="project-detail-kicker">
+                <span className="project-detail-kicker-icon" aria-hidden="true" />
+                Stack:
+              </p>
+              <p>{activeProject.stack.join(" / ")}</p>
+            </div>
+            <p className="project-status">
+              <span className="project-status-icon" aria-hidden="true" />
+              {activeProject.status}
+            </p>
+            {showAccessDenied ? (
+              <div className="project-access-alert" role="alert">
+                <p>&gt; show_project</p>
+                <strong>ACCESS DENIED</strong>
+                <span>Este proyecto contiene informacion confidencial.</span>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="project-detail-actions" aria-label="Acciones del proyecto">
+            {activeProject.actions.map((action) => (
+              <ProjectActionLink
+                action={action}
+                key={action.label}
+                onCelebrate={launchConfetti}
+                onConfidential={() => setShowAccessDenied(true)}
               />
-              <span className="sr-only">
-                Seleccionar proyecto {project.label}
-              </span>
-            </button>
-          );
-        })}
+            ))}
+          </div>
+        </article>
       </div>
 
-      <article
-        className="project-detail-panel"
-        aria-label="Detalle del proyecto seleccionado"
-        aria-live="polite"
-      >
-        <div className="project-detail-preview">
-          <img
-            src={activeProject.cartridge.src}
-            alt={`Vista del proyecto ${activeProject.label}`}
-            width="447"
-            height="558"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-
-        <div className="project-detail-copy">
-          <p className="pixel-label">PROJECT DATA LOADED</p>
-          <h3>{activeProject.title}</h3>
-          {activeProject.description.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
-
-        <div className="project-detail-meta">
-          <div>
-            <p className="project-detail-kicker">
-              <span className="project-detail-kicker-icon" aria-hidden="true" />
-              Stack:
-            </p>
-            <p>{activeProject.stack.join(" / ")}</p>
-          </div>
-          <p className="project-status">
-            <span className="project-status-icon" aria-hidden="true" />
-            {activeProject.status}
-          </p>
-          {showAccessDenied ? (
-            <div className="project-access-alert" role="alert">
-              <p>&gt; show_project</p>
-              <strong>ACCESS DENIED</strong>
-              <span>Este proyecto contiene informacion confidencial.</span>
-            </div>
-          ) : null}
-        </div>
-
-        <div className="project-detail-actions" aria-label="Acciones del proyecto">
-          {activeProject.actions.map((action) => (
-            <ProjectActionLink
-              action={action}
-              key={action.label}
-              onCelebrate={launchConfetti}
-              onConfidential={() => setShowAccessDenied(true)}
-            />
-          ))}
-        </div>
-      </article>
+      <ProjectMobileCarousel
+        activeProject={activeProject}
+        activeProjectId={activeProjectId}
+        onCelebrate={launchConfetti}
+        onConfidential={() => setShowAccessDenied(true)}
+        onSelectProject={selectProject}
+        projects={projects}
+        showAccessDenied={showAccessDenied}
+      />
     </>
   );
 }

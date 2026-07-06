@@ -147,3 +147,49 @@
   }
 
 }
+
+/* Movil en horizontal: manda la altura, asi evitamos cortar la consola. */
+@media (orientation: landscape) and (max-height: 560px) {
+  #viaje {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+    padding-top: calc(var(--header-height) + 0.55rem);
+    padding-bottom: 0.75rem;
+  }
+
+  #viaje .section-shell {
+    display: grid;
+    height: auto;
+    align-content: start;
+  }
+
+  .journey-heading {
+    gap: 0.2rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .journey-title-row {
+    gap: 0.65rem;
+  }
+
+  .journey-title {
+    font-size: clamp(1.65rem, 8svh, 2.25rem);
+  }
+
+  .journey-heart {
+    font-size: clamp(0.7rem, 3svh, 0.95rem);
+  }
+
+  .journey-subtitle-row {
+    gap: 0.45rem;
+  }
+
+  .journey-subtitle {
+    font-size: clamp(0.52rem, 2.6svh, 0.68rem);
+  }
+
+  .journey-subtitle-line {
+    width: min(3.5rem, 14vw);
+  }
+}

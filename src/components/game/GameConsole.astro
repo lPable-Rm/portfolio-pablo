@@ -1,3 +1,7 @@
+---
+import TouchControlOverlay from "./TouchControlOverlay.astro";
+---
+
 <!--
   La carcasa es una imagen decorativa. El slot recibe GameWrapper y coloca
   el canvas de Phaser encima de la pantalla negra de la imagen.
@@ -14,4 +18,6 @@
   <div class="game-console-art__screen">
     <slot />
   </div>
+
+  <TouchControlOverlay />
 </div>

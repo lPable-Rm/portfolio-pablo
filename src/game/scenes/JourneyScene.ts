@@ -31,6 +31,7 @@ import {
   type JourneyState,
 } from "../state/journeyState";
 import { PlatformerControls } from "../systems/controls";
+import { TouchControls } from "../systems/touchControls";
 import {
   shouldShowLifeguardDialogue,
   shouldShowSportDialogue,
@@ -86,6 +87,7 @@ export class JourneyScene extends Phaser.Scene {
   private dialogue!: DialogueBox;
   private hud!: Hud;
   private controls!: PlatformerControls;
+  private touchControls!: TouchControls;
   private muteButton?: MuteButton;
 
   // Estado narrativo, power-ups y recogibles de la partida actual.
@@ -168,6 +170,7 @@ export class JourneyScene extends Phaser.Scene {
     this.pushBlock = undefined;
     this.state = createInitialJourneyState();
     this.controls = new PlatformerControls(this);
+    this.touchControls = new TouchControls(this);
   }
 
   // Pablito pequeno: una forma temporal hasta disponer de su spritesheet.
@@ -289,6 +292,7 @@ export class JourneyScene extends Phaser.Scene {
 
   private createControls() {
     this.controls.create();
+    this.touchControls.create();
   }
 
   // Movimiento inicial del platformer: flechas y salto con espacio.
@@ -300,6 +304,7 @@ export class JourneyScene extends Phaser.Scene {
       onMenu: () => {
         this.returnToMainMenu();
       },
+      touchControls: this.touchControls.getState(),
     });
   }
 
