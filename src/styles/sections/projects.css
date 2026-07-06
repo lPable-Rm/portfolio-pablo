@@ -974,12 +974,16 @@
 
   .projects-mobile-carousel__actions {
     gap: 0.42rem;
-    grid-template-columns: repeat(auto-fit, minmax(6.2rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .projects-mobile-carousel__actions .project-action {
     min-height: 1.85rem;
     font-size: 0.58rem;
+  }
+
+  .projects-mobile-carousel__actions .project-action--primary {
+    grid-column: auto;
   }
 }
 

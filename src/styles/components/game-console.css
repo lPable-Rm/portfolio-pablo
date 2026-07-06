@@ -124,7 +124,7 @@
 /* Movil en horizontal: la consola escala por altura para no cortar el juego. */
 @media (orientation: landscape) and (max-height: 560px) {
   .game-console-art {
-    width: min(100%, calc((100svh - var(--header-height) - 5.2rem) * 553 / 258));
+    width: min(calc(100vw - 0.7rem), calc((100svh - var(--header-height) - 2rem) * 553 / 258));
   }
 }
 
