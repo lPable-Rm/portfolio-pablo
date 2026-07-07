@@ -1,6 +1,7 @@
 ---
 // El layout centraliza todo lo comun a la pagina:
 // metadatos, estilos globales, header fijo y el contenedor principal.
+import Analytics from "@vercel/analytics/astro";
 import Header from "../components/Header";
 import "../styles/global.css";
 
@@ -26,6 +27,8 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <title>{title}</title>
+    <!-- Analitica invisible de Vercel: mide visitas sin modificar la interfaz. -->
+    <Analytics />
   </head>
   <body>
     <!-- Enlace de accesibilidad: permite saltar el menu usando teclado. -->

@@ -173,21 +173,4 @@ Cada proyecto define título, descripción, stack, estado, cartucho visual y acc
 - Mantener los comentarios útiles que expliquen decisiones no obvias.
 - Priorizar cambios pequeños, verificables y con `npm run build`.
 
-## Estado actual
 
-Base estructural lista para trabajar SEO/GEO:
-
-- Layout principal creado.
-- Header fijo implementado.
-- Cuatro secciones principales montadas.
-- Proyectos interactivos funcionando.
-- Contacto estilo terminal funcionando.
-- Mini juego Phaser integrado.
-- CSS de Proyectos refactorizado en archivos temáticos.
-
-Pendientes recomendados:
-
-- Revisar semántica y accesibilidad ligera.
-- Añadir metadatos SEO/Open Graph.
-- Revisar contenido para GEO y lectura por LLMs.
-- Optimizar assets grandes si se confirma que no se usan.
