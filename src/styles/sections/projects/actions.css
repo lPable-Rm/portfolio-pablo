@@ -1,0 +1,81 @@
+/* Acciones de proyecto: enlaces, botones especiales y alerta confidencial. */
+.project-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  grid-area: actions;
+  align-self: end;
+  gap: 0.75rem;
+  min-height: 2.35rem;
+}
+
+.project-action {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-width: 9.6rem;
+  min-height: 2.35rem;
+  border: 1px solid rgba(66, 248, 255, 0.62);
+  padding: 0.55rem 0.85rem;
+  color: var(--color-cyan);
+  cursor: pointer;
+  background: rgba(66, 248, 255, 0.07);
+  box-shadow: 4px 4px 0 rgba(255, 79, 216, 0.36);
+  font-family: var(--font-pixel);
+  font-size: 0.82rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.project-action-icon {
+  width: 0;
+  height: 0;
+  border-top: 0.42rem solid transparent;
+  border-bottom: 0.42rem solid transparent;
+  border-left: 0.68rem solid currentColor;
+}
+
+.project-action--primary {
+  border-color: rgba(255, 230, 109, 0.78);
+  color: var(--color-yellow);
+  background: rgba(255, 230, 109, 0.08);
+}
+
+.project-action:hover,
+.project-action:focus-visible {
+  color: var(--color-bg);
+  background: var(--color-cyan);
+}
+
+.project-action--primary:hover,
+.project-action--primary:focus-visible {
+  background: var(--color-yellow);
+}
+
+/* Aviso rojo del proyecto confidencial. */
+.project-access-alert {
+  display: grid;
+  gap: 0.12rem;
+  width: fit-content;
+  border: 1px solid rgba(255, 77, 109, 0.72);
+  padding: 0.55rem 0.7rem;
+  color: var(--color-red);
+  background: rgba(255, 77, 109, 0.08);
+  box-shadow: 0 0 1rem rgba(255, 77, 109, 0.16);
+  font-family: var(--font-terminal);
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
+.project-access-alert p,
+.project-access-alert span {
+  margin: 0;
+}
+
+.project-access-alert strong {
+  color: #ff9aad;
+  font-family: var(--font-pixel);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}

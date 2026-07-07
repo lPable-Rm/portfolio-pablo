@@ -1,0 +1,227 @@
+/* Panel de detalle desktop: consola inferior que cambia con el cartucho activo. */
+.project-detail-panel {
+  position: relative;
+  display: grid;
+  width: min(82rem, 100%);
+  height: clamp(13.4rem, 25vh, 15rem);
+  min-height: 0;
+  align-items: stretch;
+  align-self: end;
+  gap: 0.75rem 1.15rem;
+  grid-template-areas:
+    "preview copy meta"
+    "preview actions meta";
+  grid-template-columns: var(--projects-panel-preview) minmax(0, 1fr) minmax(16rem, 0.72fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  margin: 0 auto;
+  border: 2px solid rgba(255, 79, 216, 0.72);
+  border-radius: 0;
+  padding: 0.9rem 1.1rem;
+  background:
+    linear-gradient(180deg, rgba(7, 10, 24, 0.9), rgba(5, 7, 17, 0.94)),
+    rgba(9, 15, 32, 0.84);
+  box-shadow:
+    0 0 1.3rem rgba(66, 248, 255, 0.18),
+    0 0 2.2rem rgba(255, 79, 216, 0.18),
+    inset 0 0 0 1px rgba(66, 248, 255, 0.24),
+    inset 0 0 2rem rgba(255, 79, 216, 0.055);
+  clip-path: polygon(
+    1.1rem 0,
+    calc(100% - 1.1rem) 0,
+    100% 1.1rem,
+    100% calc(100% - 1.1rem),
+    calc(100% - 1.1rem) 100%,
+    1.1rem 100%,
+    0 calc(100% - 1.1rem),
+    0 1.1rem
+  );
+  overflow: hidden;
+}
+
+.project-detail-panel::before,
+.project-detail-panel::after {
+  position: absolute;
+  width: 3.2rem;
+  height: 3.2rem;
+  content: "";
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.project-detail-panel::before {
+  top: 0.45rem;
+  left: 0.45rem;
+  border-top: 2px solid var(--color-cyan);
+  border-left: 2px solid var(--color-cyan);
+  box-shadow: -0.25rem -0.25rem 0 rgba(255, 79, 216, 0.34);
+}
+
+.project-detail-panel::after {
+  right: 0.45rem;
+  bottom: 0.45rem;
+  border-right: 2px solid var(--color-cyan);
+  border-bottom: 2px solid var(--color-cyan);
+  box-shadow: 0.25rem 0.25rem 0 rgba(255, 79, 216, 0.34);
+}
+
+/* Mini preview del proyecto seleccionado dentro del panel. */
+.project-detail-preview {
+  display: grid;
+  grid-area: preview;
+  width: 100%;
+  height: 100%;
+  min-height: calc(var(--projects-panel-preview) + 1rem);
+  place-items: center;
+  border: 2px solid rgba(255, 79, 216, 0.82);
+  border-radius: 0;
+  background:
+    linear-gradient(rgba(66, 248, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 79, 216, 0.08) 1px, transparent 1px),
+    rgba(5, 7, 17, 0.7);
+  background-size: 12px 12px, 12px 12px, auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(66, 248, 255, 0.36),
+    0 0 1rem rgba(255, 79, 216, 0.2);
+}
+
+.project-detail-preview img {
+  display: block;
+  width: auto;
+  height: min(var(--projects-panel-image), 100%);
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 0.65rem rgba(255, 79, 216, 0.42));
+}
+
+/* Columna central: etiqueta, titulo y descripcion del proyecto. */
+.project-detail-copy {
+  display: grid;
+  grid-area: copy;
+  align-self: start;
+  gap: 0.45rem;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.project-detail-copy h3 {
+  display: -webkit-box;
+  max-width: 36rem;
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-cyan);
+  font-family: var(--font-pixel);
+  font-size: clamp(1.08rem, 1.48vw, 1.42rem);
+  line-height: 1.18;
+  text-shadow: 0 0 0.55rem rgba(66, 248, 255, 0.26);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.project-detail-copy p {
+  display: -webkit-box;
+  max-width: 48rem;
+  margin: 0;
+  overflow: hidden;
+  color: rgba(246, 247, 255, 0.86);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.project-detail-copy .pixel-label {
+  display: block;
+  color: var(--color-yellow);
+  font-size: 0.68rem;
+  overflow: visible;
+}
+
+/* Columna derecha: stack, estado y alertas especiales. */
+.project-detail-meta {
+  display: grid;
+  grid-area: meta;
+  gap: 0.8rem;
+  align-self: stretch;
+  align-content: center;
+  border-left: 2px dotted rgba(143, 107, 255, 0.62);
+  min-height: 0;
+  padding-left: 1.2rem;
+}
+
+.project-detail-meta p {
+  margin: 0;
+  color: rgba(246, 247, 255, 0.88);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.project-detail-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-cyan) !important;
+  font-family: var(--font-pixel);
+  font-size: 0.9rem !important;
+  text-transform: uppercase;
+}
+
+.project-detail-kicker-icon {
+  position: relative;
+  display: inline-block;
+  width: 1rem;
+  height: 0.78rem;
+  color: var(--color-cyan);
+  line-height: 1;
+}
+
+.project-detail-kicker-icon::before,
+.project-detail-kicker-icon::after {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  box-shadow: 0 0.32rem 0 currentColor;
+  content: "";
+}
+
+.project-detail-kicker-icon::before {
+  top: 0;
+}
+
+.project-detail-kicker-icon::after {
+  top: 0.64rem;
+}
+
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  border: 1px solid rgba(255, 230, 109, 0.76);
+  padding: 0.62rem 1rem;
+  color: var(--color-yellow) !important;
+  background: rgba(255, 230, 109, 0.08);
+  box-shadow: inset 0 0 0 2px rgba(255, 230, 109, 0.05);
+  font-family: var(--font-pixel);
+  text-transform: uppercase;
+}
+
+.project-status-icon {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1;
+}
+
+.project-status-icon::before {
+  position: absolute;
+  inset: 0;
+  color: var(--color-yellow);
+  content: "*";
+  font-size: 1.3rem;
+  line-height: 1;
+  transform: translateY(-0.08rem);
+}

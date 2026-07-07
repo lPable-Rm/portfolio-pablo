@@ -8,5 +8,5 @@
 @import "./components/game-console.css";
 @import "./sections/hero.css";
 @import "./sections/journey.css";
-@import "./sections/projects.css";
+@import "./sections/projects/index.css";
 @import "./sections/contact.css";

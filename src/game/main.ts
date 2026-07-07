@@ -33,7 +33,7 @@ export function createGame(parent: HTMLElement): Phaser.Game {
 
       arcade: {
         // Gravedad global que afectará al jugador y otros objetos dinámicos.
-        gravity: { y: 1000 },
+        gravity: { x: 0, y: 1000 },
 
         // Muestra límites y cuerpos físicos solo si vale true.
         debug: false,

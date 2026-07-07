@@ -52,7 +52,7 @@ export const projects: PortfolioProject[] = [
       alt: "Cartucho del proyecto Asistente IA Restaurante",
     },
     actions: [
-      { href: "#", label: "Ver demo", variant: "primary" },
+      { href: "https://youtu.be/MsE6xZgAYsk", label: "Ver demo", variant: "primary" },
       { href: "https://github.com/lPable-Rm/Restaurante_chatBot", label: "GitHub" },
       {
         href: "/assets/cv/Caso_tecnico_asistente_restaurantes_Pablo_Ramos.pdf",

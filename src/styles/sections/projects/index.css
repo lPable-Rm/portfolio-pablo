@@ -1,0 +1,8 @@
+/* Proyectos: indice de estilos de la seccion.
+   Mantiene el orden original de cascada, solo reparte el archivo grande. */
+@import "./base.css";
+@import "./desktop.css";
+@import "./detail-panel.css";
+@import "./actions.css";
+@import "./effects.css";
+@import "./responsive.css";

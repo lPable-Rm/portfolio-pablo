@@ -1,0 +1,48 @@
+/* Efectos temporales de la seccion: confeti pixel al pulsar Hiring. */
+.project-confetti-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.project-confetti-piece {
+  position: absolute;
+  top: -1rem;
+  left: var(--confetti-left);
+  width: var(--confetti-size);
+  height: var(--confetti-size);
+  background: var(--confetti-color);
+  box-shadow:
+    0 0 0.45rem color-mix(in srgb, var(--confetti-color) 74%, transparent),
+    0.18rem 0.18rem 0 rgba(5, 7, 17, 0.42);
+  image-rendering: pixelated;
+  transform: translate3d(0, -1rem, 0);
+  animation: project-confetti-fall var(--confetti-duration) linear var(--confetti-delay) forwards;
+}
+
+.project-confetti-piece:nth-child(3n) {
+  width: calc(var(--confetti-size) * 1.8);
+  height: calc(var(--confetti-size) * 0.7);
+}
+
+.project-confetti-piece:nth-child(4n) {
+  border-radius: 50%;
+}
+
+@keyframes project-confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -1rem, 0) rotate(0deg);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--confetti-drift), 108vh, 0) rotate(540deg);
+  }
+}
