@@ -14,6 +14,8 @@ const {
   title = "Pablo.dev | Portfolio",
   description = "Portfolio creativo de Pablo, desarrollador con mentalidad fullstack.",
 } = Astro.props;
+
+const canonicalUrl = "https://www.pramos.dev/";
 ---
 
 <!doctype html>
@@ -23,6 +25,8 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <!-- URL principal que deben indexar los buscadores. -->
+    <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
