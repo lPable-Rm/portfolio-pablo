@@ -21,6 +21,36 @@ const socialImageUrl = "https://www.pramos.dev/assets/og-image.jpg";
 const socialDescription =
   "Pablo Ramos, desarrollador fullstack en Las Palmas especializado en frontend, backend, datos e IA.";
 
+const personData = {
+  "@type": "Person",
+  "@id": `${canonicalUrl}#person`,
+  name: "Pablo Ramos",
+  url: canonicalUrl,
+  image: socialImageUrl,
+  jobTitle: "Desarrollador Fullstack",
+  description,
+  email: "mailto:contacto@pramos.dev",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Las Palmas",
+    addressRegion: "Canarias",
+    addressCountry: "ES",
+  },
+  knowsAbout: [
+    "Frontend",
+    "Backend",
+    "Datos",
+    "Inteligencia artificial",
+    "Astro",
+    "React",
+    "TypeScript",
+    "Python",
+    "FastAPI",
+    "PostgreSQL",
+  ],
+  sameAs: ["https://github.com/lPable-Rm", "https://www.instagram.com/lpablo.ramos/"],
+};
+
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -41,39 +71,8 @@ const structuredData = {
       isPartOf: {
         "@id": `${canonicalUrl}#website`,
       },
-      about: {
-        "@id": `${canonicalUrl}#person`,
-      },
+      mainEntity: personData,
       inLanguage: "es",
-    },
-    {
-      "@type": "Person",
-      "@id": `${canonicalUrl}#person`,
-      name: "Pablo Ramos",
-      url: canonicalUrl,
-      image: socialImageUrl,
-      jobTitle: "Desarrollador Fullstack",
-      description,
-      email: "mailto:contacto@pramos.dev",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Las Palmas",
-        addressRegion: "Canarias",
-        addressCountry: "ES",
-      },
-      knowsAbout: [
-        "Frontend",
-        "Backend",
-        "Datos",
-        "Inteligencia artificial",
-        "Astro",
-        "React",
-        "TypeScript",
-        "Python",
-        "FastAPI",
-        "PostgreSQL",
-      ],
-      sameAs: ["https://github.com/lPable-Rm", "https://www.instagram.com/lpablo.ramos/"],
     },
   ],
 };
