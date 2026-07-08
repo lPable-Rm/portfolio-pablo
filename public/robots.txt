@@ -1,3 +1,4 @@
+# robots.txt para pramos.dev
 
 User-agent: *
 Allow: /
