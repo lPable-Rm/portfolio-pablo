@@ -1,0 +1,13 @@
+
+User-agent: *
+Allow: /
+
+# Permitir aparecer en ChatGPT Search
+User-agent: OAI-SearchBot
+Allow: /
+
+# No permitir uso para entrenamiento de modelos OpenAI
+User-agent: GPTBot
+Disallow: /
+
+Sitemap: https://www.pramos.dev/sitemap.xml
