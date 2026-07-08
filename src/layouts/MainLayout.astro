@@ -20,6 +20,63 @@ const canonicalUrl = "https://www.pramos.dev/";
 const socialImageUrl = "https://www.pramos.dev/assets/og-image.jpg";
 const socialDescription =
   "Pablo Ramos, desarrollador fullstack en Las Palmas especializado en frontend, backend, datos e IA.";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${canonicalUrl}#website`,
+      url: canonicalUrl,
+      name: "Pablo Ramos Portfolio",
+      description,
+      inLanguage: "es",
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonicalUrl}#profile`,
+      url: canonicalUrl,
+      name: title,
+      description,
+      isPartOf: {
+        "@id": `${canonicalUrl}#website`,
+      },
+      about: {
+        "@id": `${canonicalUrl}#person`,
+      },
+      inLanguage: "es",
+    },
+    {
+      "@type": "Person",
+      "@id": `${canonicalUrl}#person`,
+      name: "Pablo Ramos",
+      url: canonicalUrl,
+      image: socialImageUrl,
+      jobTitle: "Desarrollador Fullstack",
+      description,
+      email: "mailto:contacto@pramos.dev",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Las Palmas",
+        addressRegion: "Canarias",
+        addressCountry: "ES",
+      },
+      knowsAbout: [
+        "Frontend",
+        "Backend",
+        "Datos",
+        "Inteligencia artificial",
+        "Astro",
+        "React",
+        "TypeScript",
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+      ],
+      sameAs: ["https://github.com/lPable-Rm", "https://www.instagram.com/lpablo.ramos/"],
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -49,6 +106,9 @@ const socialDescription =
     <meta name="twitter:description" content={socialDescription} />
     <meta name="twitter:image" content={socialImageUrl} />
     <meta name="twitter:image:alt" content="Pablo Ramos, desarrollador fullstack en Las Palmas" />
+
+    <!-- Datos estructurados: refuerzan la entidad Pablo Ramos para buscadores e IA. -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
