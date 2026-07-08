@@ -22,11 +22,13 @@
 
 <script>
   const TOUCH_CONTROL_EVENT = "pablo-game-touch-control";
-  const touchZones = document.querySelectorAll("[data-game-touch-control]");
-  const pointerControls = new Map();
-  const activeControlCounts = new Map();
+  const touchZones = document.querySelectorAll<HTMLButtonElement>(
+    "[data-game-touch-control]",
+  );
+  const pointerControls = new Map<number, string>();
+  const activeControlCounts = new Map<string, number>();
 
-  function emitTouchControl(control, isPressed) {
+  function emitTouchControl(control: string, isPressed: boolean) {
     window.dispatchEvent(
       new CustomEvent(TOUCH_CONTROL_EVENT, {
         detail: {
@@ -37,7 +39,7 @@
     );
   }
 
-  function pressControl(control) {
+  function pressControl(control: string) {
     const activeCount = activeControlCounts.get(control) ?? 0;
     activeControlCounts.set(control, activeCount + 1);
 
@@ -46,7 +48,7 @@
     }
   }
 
-  function releasePointer(pointerId) {
+  function releasePointer(pointerId: number) {
     const control = pointerControls.get(pointerId);
 
     if (!control) {
