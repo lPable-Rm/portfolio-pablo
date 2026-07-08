@@ -140,7 +140,7 @@ export function ProjectMobileCarousel({
           <div className="project-access-alert projects-mobile-carousel__alert" role="alert">
             <p>&gt; show_project</p>
             <strong>ACCESS DENIED</strong>
-            <span>Este proyecto contiene informacion confidencial.</span>
+            <span>Este proyecto contiene información confidencial.</span>
           </div>
         ) : null}
       </article>

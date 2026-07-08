@@ -63,7 +63,7 @@ export default function Header() {
 
   return (
     <header className="site-header">
-      <nav className="site-nav" aria-label="Navegacion principal">
+      <nav className="site-nav" aria-label="Navegación principal">
         {/* Marca principal: tambien funciona como enlace de vuelta al Hero. */}
         <a
           className={`brand-mark ${activeSection === "hero" ? "is-active" : ""}`}
@@ -88,7 +88,7 @@ export default function Header() {
           <span className="menu-toggle__bar" />
           <span className="menu-toggle__bar" />
           <span className="menu-toggle__bar" />
-          <span className="sr-only">Menu</span>
+          <span className="sr-only">Menú</span>
         </button>
 
         {/* En desktop se ve como barra horizontal; en movil como desplegable. */}

@@ -85,7 +85,7 @@ export default function ProjectCartridges() {
   return (
     <>
       {confettiPieces.length > 0 ? (
-        // Capa decorativa: aria-hidden porque no aporta informacion semantica.
+        // Capa decorativa: aria-hidden porque no aporta información semántica.
         <div className="project-confetti-layer" aria-hidden="true">
           {confettiPieces.map((piece) => (
             <span
@@ -180,7 +180,7 @@ export default function ProjectCartridges() {
               <div className="project-access-alert" role="alert">
                 <p>&gt; show_project</p>
                 <strong>ACCESS DENIED</strong>
-                <span>Este proyecto contiene informacion confidencial.</span>
+                <span>Este proyecto contiene información confidencial.</span>
               </div>
             ) : null}
           </div>

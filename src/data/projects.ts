@@ -33,8 +33,8 @@ export const projects: PortfolioProject[] = [
     label: "Asistente IA Restaurante",
     title: "Asistente conversacional personalizado para restaurantes",
     description: [
-      "Chatbot basado en arquitectura RAG que se adapta a la carta y a la informacion real de cada restaurante.",
-      "Permite consultar platos, ingredientes, alergenos, recomendaciones y dudas en lenguaje natural.",
+      "Chatbot basado en arquitectura RAG que se adapta a la carta y a la información real de cada restaurante.",
+      "Permite consultar platos, ingredientes, alérgenos, recomendaciones y dudas en lenguaje natural.",
     ],
     stack: [
       "PostgreSQL",
@@ -65,8 +65,8 @@ export const projects: PortfolioProject[] = [
     label: "Portfolio interactivo 8-bit",
     title: "Portfolio interactivo 8-bit",
     description: [
-      "Portfolio web con estetica retro inspirado en videojuegos clasicos, creado para presentar mi perfil, trayectoria y proyectos de forma interactiva.",
-      "Incluye un mini juego embebido, cartuchos de proyectos y una seccion de contacto con estetica de terminal.",
+      "Portfolio web con estética retro inspirado en videojuegos clásicos, creado para presentar mi perfil, trayectoria y proyectos de forma interactiva.",
+      "Incluye un mini juego embebido, cartuchos de proyectos y una sección de contacto con estética de terminal.",
     ],
     stack: ["Astro", "React", "TypeScript", "Phaser", "Tailwind CSS"],
     status: "Complete",
@@ -85,8 +85,8 @@ export const projects: PortfolioProject[] = [
     label: "Data Analyst",
     title: "Data Analyst",
     description: [
-      "Experiencia en practicas desarrollando aplicaciones y dashboards en Qlik y Power BI.",
-      "Trabajo desde la extraccion y limpieza de datos hasta su visualizacion final para apoyar la toma de decisiones.",
+      "Experiencia en prácticas desarrollando aplicaciones y dashboards en Qlik y Power BI.",
+      "Trabajo desde la extracción y limpieza de datos hasta su visualización final para apoyar la toma de decisiones.",
     ],
     stack: [
       "Qlik",
