@@ -1,13 +1,31 @@
 # robots.txt para pramos.dev
+# Objetivo: permitir indexacion SEO y visibilidad en motores generativos,
+# manteniendo bloqueado el uso para entrenamiento cuando el bot lo separa.
 
 User-agent: *
 Allow: /
 
-# Permitir aparecer en ChatGPT Search
+# Busqueda generativa con enlaces/citas
 User-agent: OAI-SearchBot
 Allow: /
 
-# No permitir uso para entrenamiento de modelos OpenAI
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google Search y Gemini
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Entrenamiento de modelos generativos
 User-agent: GPTBot
 Disallow: /
 

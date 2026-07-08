@@ -3,6 +3,7 @@
 // metadatos, estilos globales, header fijo y el contenedor principal.
 import Analytics from "@vercel/analytics/astro";
 import Header from "../components/Header";
+import { projects } from "../data/projects";
 import "../styles/global.css";
 
 interface Props {
@@ -21,15 +22,107 @@ const socialImageUrl = "https://www.pramos.dev/assets/og-image.jpg";
 const socialDescription =
   "Pablo Ramos, desarrollador fullstack en Las Palmas especializado en frontend, backend, datos e IA.";
 
+const personId = `${canonicalUrl}#person`;
+const profileId = `${canonicalUrl}#profile`;
+const websiteId = `${canonicalUrl}#website`;
+
+const absoluteUrl = (url: string) =>
+  url.startsWith("http") ? url : new URL(url, canonicalUrl).toString();
+
+const projectSchemaDetails: Record<
+  string,
+  {
+    type: string | string[];
+    programmingLanguage?: string[];
+    runtimePlatform?: string;
+  }
+> = {
+  "restaurant-ai": {
+    type: ["SoftwareSourceCode", "CreativeWork"],
+    programmingLanguage: ["Python", "SQL", "JavaScript", "HTML", "CSS"],
+    runtimePlatform: "FastAPI",
+  },
+  "portfolio-8bit": {
+    type: ["SoftwareSourceCode", "CreativeWork"],
+    programmingLanguage: ["TypeScript", "JavaScript", "HTML", "CSS"],
+    runtimePlatform: "Astro",
+  },
+  "data-analyst": {
+    type: "CreativeWork",
+    programmingLanguage: ["Python", "SQL"],
+  },
+};
+
+const projectEntities = projects.map((project) => {
+  const details = projectSchemaDetails[project.id] ?? { type: "CreativeWork" };
+  const actionUrls = project.actions
+    .filter((action) => action.href)
+    .map((action) => absoluteUrl(action.href as string));
+  const githubAction = project.actions.find(
+    (action) => action.label.toLowerCase() === "github" && action.href,
+  );
+
+  return {
+    "@type": details.type,
+    "@id": `${canonicalUrl}#project-${project.id}`,
+    name: project.title,
+    alternateName: project.label,
+    description: project.description.join(" "),
+    url: `${canonicalUrl}#proyectos`,
+    image: absoluteUrl(project.cartridge.src),
+    inLanguage: "es",
+    creator: {
+      "@id": personId,
+    },
+    author: {
+      "@id": personId,
+    },
+    isPartOf: {
+      "@id": profileId,
+    },
+    creativeWorkStatus: project.status,
+    keywords: project.stack,
+    about: project.stack.map((technology) => ({
+      "@type": "Thing",
+      name: technology,
+    })),
+    ...(githubAction?.href ? { codeRepository: githubAction.href } : {}),
+    ...(details.programmingLanguage
+      ? { programmingLanguage: details.programmingLanguage }
+      : {}),
+    ...(details.runtimePlatform ? { runtimePlatform: details.runtimePlatform } : {}),
+    ...(actionUrls.length > 0 ? { sameAs: actionUrls } : {}),
+  };
+});
+
+const projectReferences = projectEntities.map((project) => ({
+  "@id": project["@id"],
+}));
+
 const personData = {
   "@type": "Person",
-  "@id": `${canonicalUrl}#person`,
+  "@id": personId,
   name: "Pablo Ramos",
   url: canonicalUrl,
   image: socialImageUrl,
   jobTitle: "Desarrollador Fullstack",
   description,
   email: "mailto:contacto@pramos.dev",
+  mainEntityOfPage: {
+    "@id": profileId,
+  },
+  hasOccupation: {
+    "@type": "Occupation",
+    name: "Desarrollador Fullstack",
+    description:
+      "Desarrollador creativo con mentalidad fullstack especializado en frontend, backend, datos e inteligencia artificial.",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "Contacto profesional",
+    email: "contacto@pramos.dev",
+    availableLanguage: ["es", "en"],
+  },
   address: {
     "@type": "PostalAddress",
     addressLocality: "Las Palmas",
@@ -41,13 +134,24 @@ const personData = {
     "Backend",
     "Datos",
     "Inteligencia artificial",
+    "RAG",
+    "Tools / Function Calling",
     "Astro",
     "React",
     "TypeScript",
+    "Phaser",
+    "Tailwind CSS",
     "Python",
     "FastAPI",
     "PostgreSQL",
+    "SQL",
+    "Groq",
+    "Qlik",
+    "Power BI",
+    "ETL",
+    "Data Visualization",
   ],
+  subjectOf: projectReferences,
   sameAs: ["https://github.com/lPable-Rm", "https://www.instagram.com/lpablo.ramos/"],
 };
 
@@ -56,24 +160,43 @@ const structuredData = {
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": `${canonicalUrl}#website`,
+      "@id": websiteId,
       url: canonicalUrl,
       name: "Pablo Ramos Portfolio",
       description,
+      author: {
+        "@id": personId,
+      },
+      publisher: {
+        "@id": personId,
+      },
+      about: {
+        "@id": personId,
+      },
       inLanguage: "es",
     },
     {
       "@type": "ProfilePage",
-      "@id": `${canonicalUrl}#profile`,
+      "@id": profileId,
       url: canonicalUrl,
       name: title,
       description,
       isPartOf: {
-        "@id": `${canonicalUrl}#website`,
+        "@id": websiteId,
+      },
+      about: {
+        "@id": personId,
       },
       mainEntity: personData,
+      hasPart: projectReferences,
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: socialImageUrl,
+        caption: "Pablo Ramos, desarrollador fullstack en Las Palmas",
+      },
       inLanguage: "es",
     },
+    ...projectEntities,
   ],
 };
 ---
@@ -110,8 +233,7 @@ const structuredData = {
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <title>{title}</title>
     <!-- Analitica invisible de Vercel: mide visitas sin modificar la interfaz. -->
     <Analytics />
