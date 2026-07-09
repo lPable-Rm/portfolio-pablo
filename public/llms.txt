@@ -58,7 +58,7 @@ Permite consultar platos, ingredientes, alergenos, recomendaciones y dudas en le
 
 - Stack: PostgreSQL, FastAPI, Groq, RAG, Tools / Function Calling, HTML, CSS, JavaScript
 - Estado: demo disponible
-- Demo: https://youtu.be/MsE6xZgAYsk
+- Demo: https://www.youtube.com/playlist?list=PLPyB867_vBBw
 - Repositorio: https://github.com/lPable-Rm/Restaurante_chatBot
 - Caso tecnico: https://www.pramos.dev/assets/cv/Caso_tecnico_asistente_restaurantes_Pablo_Ramos.pdf
 
