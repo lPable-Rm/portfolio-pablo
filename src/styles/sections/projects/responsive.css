@@ -251,15 +251,10 @@
   }
 
   .projects-mobile-detail__copy p {
-    display: -webkit-box;
     margin: 0;
-    overflow: hidden;
     color: rgba(246, 247, 255, 0.88);
     font-size: 0.82rem;
     line-height: 1.35;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
   }
 
   .projects-mobile-detail__stack {
@@ -395,10 +390,13 @@
   }
 
   .projects-mobile-detail__copy p {
+    display: block;
+    overflow: visible;
     font-size: 0.68rem;
     line-height: 1.24;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
+    -webkit-box-orient: initial;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
   }
 
   .projects-mobile-detail__stack {
