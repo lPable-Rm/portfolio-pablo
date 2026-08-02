@@ -1,0 +1,81 @@
+---
+import "../styles/nolvida-privacy.css";
+
+interface Frontmatter {
+  description: string;
+  title: string;
+}
+
+interface Props {
+  frontmatter: Frontmatter;
+}
+
+const { frontmatter } = Astro.props;
+const canonicalUrl = "https://www.pramos.dev/nolvida/privacy";
+const sections = [
+  ["resumen-de-privacidad", "Resumen"],
+  ["1-quién-es-responsable-de-nolvida", "Responsable"],
+  ["2-a-qué-se-aplica-esta-política", "Alcance"],
+  ["3-qué-información-utiliza-nolvida-en-el-dispositivo", "Información local"],
+  ["4-para-qué-se-utiliza-esta-información", "Finalidad"],
+  ["5-qué-permisos-y-funciones-de-android-utiliza-nolvida", "Permisos Android"],
+  ["6-se-comparten-o-venden-datos", "Datos compartidos"],
+  ["7-durante-cuánto-tiempo-se-conserva-la-información", "Conservación"],
+  ["8-cómo-se-protege-la-información-local", "Seguridad"],
+  ["9-qué-ocurre-si-se-contacta-con-pramos", "Contacto con Pramos"],
+  ["10-qué-ocurre-al-consultar-esta-política-en-la-web", "Consulta web"],
+  ["11-qué-derechos-tiene-el-usuario", "Derechos"],
+  ["12-cambios-en-esta-política", "Cambios"],
+  ["13-contacto", "Contacto"],
+] as const;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={frontmatter.description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#080b18" />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{frontmatter.title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#privacy-content">Saltar al contenido</a>
+
+    <header class="privacy-header">
+      <a href="#privacy-content" aria-label="Nolvida, política de privacidad">
+        <span aria-hidden="true">N</span>
+        <strong>NOLVIDA</strong>
+      </a>
+      <p><i aria-hidden="true"></i> LOCAL-FIRST</p>
+    </header>
+
+    <main class="privacy-layout" id="privacy-content">
+      <nav class="privacy-index" aria-label="Índice de la política">
+        <p>FILE INDEX</p>
+        <ol>
+          {sections.map(([id, label], index) => (
+            <li>
+              <a href={`#${id}`}>
+                <span>{String(index).padStart(2, "0")}</span>
+                {label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <article class="privacy-document">
+        <p class="privacy-kicker">SYSTEM FILE // ES</p>
+        <slot />
+      </article>
+    </main>
+
+    <footer class="privacy-footer">
+      <p>NOLVIDA // PRIVACY SYSTEM</p>
+      <a href="#privacy-content">VOLVER ARRIBA ↑</a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,322 @@
+@font-face {
+  font-family: "Inter";
+  font-display: swap;
+  src: url("/assets/fonts/Inter-Variable.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-display: swap;
+  src: url("/assets/fonts/JetBrainsMono-Variable.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Pixelify Sans";
+  font-display: swap;
+  src: url("/assets/fonts/PixelifySans-Variable.ttf") format("truetype");
+}
+
+:root {
+  --bg: #080b18;
+  --panel: #10162d;
+  --text: #cbd2e5;
+  --muted: #929cb8;
+  --cyan: #42f8ff;
+  --magenta: #ff4fd8;
+  --yellow: #ffe66d;
+  --green: #6dff9f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  min-width: 20rem;
+  margin: 0;
+  color: var(--text);
+  background:
+    linear-gradient(rgba(66, 248, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 79, 216, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 20% 0, #282459 0, transparent 32rem),
+    var(--bg);
+  background-size: 32px 32px, 32px 32px, auto, auto;
+  font-family: "Inter", sans-serif;
+  line-height: 1.7;
+}
+
+a {
+  color: var(--cyan);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--yellow);
+}
+
+:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 20;
+  padding: 0.6rem 0.9rem;
+  color: var(--bg);
+  background: var(--yellow);
+  font-weight: 800;
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.privacy-header {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  display: flex;
+  min-height: 4.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem max(1rem, calc((100vw - 52rem) / 2));
+  border-bottom: 1px solid #42f8ff45;
+  background: #080b18e8;
+  backdrop-filter: blur(12px);
+}
+
+.privacy-header > a {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+}
+
+.privacy-header > a span {
+  display: grid;
+  width: 2.4rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 2px solid var(--cyan);
+  color: var(--yellow);
+  box-shadow: 0.2rem 0.2rem var(--magenta);
+  font: 1.55rem/1 "Pixelify Sans", sans-serif;
+}
+
+.privacy-header strong {
+  font: 1.3rem/1 "Pixelify Sans", sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.privacy-header p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--green);
+  font: 700 0.7rem "JetBrains Mono", monospace;
+}
+
+.privacy-header i {
+  width: 0.55rem;
+  aspect-ratio: 1;
+  background: var(--green);
+  box-shadow: 0 0 0.7rem var(--green);
+}
+
+.privacy-layout {
+  display: grid;
+  width: min(calc(100% - 2rem), 70rem);
+  margin-inline: auto;
+  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: 13rem minmax(0, 52rem);
+  padding: clamp(3rem, 8vw, 6rem) 0;
+}
+
+.privacy-index {
+  position: sticky;
+  top: 6rem;
+  align-self: start;
+  border-left: 1px solid #42f8ff45;
+  padding-left: 1rem;
+}
+
+.privacy-index > p {
+  margin: 0 0 0.7rem;
+  color: var(--yellow);
+  font: 700 0.7rem "JetBrains Mono", monospace;
+  letter-spacing: 0.1em;
+}
+
+.privacy-index ol {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.privacy-index a {
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: 1.35rem 1fr;
+  padding: 0.28rem 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.privacy-index a:hover {
+  color: var(--cyan);
+}
+
+.privacy-index a span {
+  color: var(--magenta);
+  font: 0.6rem "JetBrains Mono", monospace;
+}
+
+.privacy-document {
+  min-width: 0;
+}
+
+.privacy-kicker {
+  margin: 0;
+  color: var(--yellow);
+  font: 700 0.75rem "JetBrains Mono", monospace;
+  letter-spacing: 0.1em;
+}
+
+.privacy-document h1,
+.privacy-document h2 {
+  color: #eef2ff;
+  font-family: "Pixelify Sans", sans-serif;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.privacy-document h1 {
+  max-width: 12ch;
+  margin: 0.5rem 0 2rem;
+  color: transparent;
+  background: linear-gradient(90deg, var(--cyan), #b8f3ff, var(--magenta));
+  background-clip: text;
+  font-size: clamp(3rem, 10vw, 5.8rem);
+}
+
+.privacy-document h2 {
+  margin: 4.5rem 0 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid #42f8ff38;
+  font-size: clamp(1.65rem, 5vw, 2.35rem);
+}
+
+.privacy-document h3 {
+  margin: 2.2rem 0 0.6rem;
+  color: var(--cyan);
+  font: 700 0.95rem "JetBrains Mono", monospace;
+}
+
+.privacy-document p,
+.privacy-document li {
+  font-size: 0.96rem;
+}
+
+.privacy-document ul,
+.privacy-document ol {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 1.5rem;
+}
+
+.privacy-document li::marker {
+  color: var(--magenta);
+  font-weight: 800;
+}
+
+.privacy-document strong {
+  color: #eef2ff;
+}
+
+.privacy-document code {
+  padding: 0.1rem 0.3rem;
+  color: var(--yellow);
+  background: #42f8ff12;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.privacy-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.3rem max(1rem, calc((100vw - 52rem) / 2));
+  border-top: 1px solid #42f8ff38;
+  background: #050812;
+  font: 0.68rem "JetBrains Mono", monospace;
+}
+
+.privacy-footer p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (max-width: 560px) {
+  .privacy-header p {
+    font-size: 0;
+  }
+
+  .privacy-header i {
+    width: 0.65rem;
+  }
+
+  .privacy-layout {
+    width: min(calc(100% - 1.25rem), 52rem);
+    padding-top: 2.5rem;
+  }
+
+  .privacy-document p,
+  .privacy-document li {
+    font-size: 0.91rem;
+  }
+
+  .privacy-footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 850px) {
+  .privacy-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-index {
+    position: static;
+    border: 1px solid #42f8ff45;
+    padding: 0.9rem;
+  }
+
+  .privacy-index ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .privacy-index ol {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
