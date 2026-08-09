@@ -29,6 +29,37 @@ export type PortfolioProject = {
 // Al anadir o cambiar proyectos, deberia hacerse aqui antes de tocar el JSX.
 export const projects: PortfolioProject[] = [
   {
+    id: "nolvida",
+    label: "Nolvida",
+    title: "Nolvida",
+    description: [
+      "Aplicación Android nativa para capturar recordatorios por voz o texto con la mínima fricción y mantenerlos visibles hasta completarlos.",
+      "Funciona completamente en local, sin cuentas, publicidad ni conexión a Internet, e incluye notificaciones persistentes y un widget de captura rápida.",
+    ],
+    stack: [
+      "Kotlin",
+      "Jetpack Compose",
+      "Material 3",
+      "Room",
+      "DataStore",
+      "WorkManager",
+      "SpeechRecognizer",
+      "App Widget",
+    ],
+    status: "Próximamente en Google Play",
+    cartridge: {
+      src: "/assets/seccion3Proyects/cartuchoAmarilloNolvida-v2.png",
+      alt: "Cartucho amarillo del proyecto Nolvida",
+    },
+    actions: [
+      {
+        href: "/assets/cv/Resumen_tecnico_Nolvida_Pablo_Ramos.pdf",
+        label: "Ver caso",
+        variant: "primary",
+      },
+    ],
+  },
+  {
     id: "restaurant-ai",
     label: "Asistente IA Restaurante",
     title: "Asistente conversacional personalizado para restaurantes",

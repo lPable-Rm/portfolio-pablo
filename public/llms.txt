@@ -28,6 +28,7 @@ No se limita a una sola etiqueta tecnica: aprende lo necesario para convertir un
 - Desarrollo web interactivo
 - Visualizacion de datos
 - ETL
+- Desarrollo Android nativo
 
 ## Tecnologias
 
@@ -47,8 +48,24 @@ No se limita a una sola etiqueta tecnica: aprende lo necesario para convertir un
 - Qlik
 - Power BI
 - Excel
+- Android
+- Kotlin
+- Jetpack Compose
+- Room
+- DataStore
+- WorkManager
 
 ## Proyectos destacados
+
+### Nolvida
+
+Aplicacion Android nativa para capturar recordatorios por voz o texto con la minima friccion y mantenerlos visibles hasta completarlos.
+
+Funciona completamente en local, sin cuentas, backend, publicidad ni conexion a Internet. Incluye notificaciones persistentes y un widget de captura rapida por voz.
+
+- Stack: Kotlin, Jetpack Compose, Material 3, Room, DataStore, WorkManager, SpeechRecognizer, App Widget
+- Estado: proximamente en Google Play
+- Privacidad: https://www.pramos.dev/nolvida/privacy
 
 ### Asistente conversacional personalizado para restaurantes
 

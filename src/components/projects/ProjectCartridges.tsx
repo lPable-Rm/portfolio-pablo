@@ -38,6 +38,19 @@ export default function ProjectCartridges() {
     [activeProjectId],
   );
 
+  const activeProjectIndex = Math.max(
+    0,
+    projects.findIndex((project) => project.id === activeProject.id),
+  );
+  const previousProject =
+    projects[(activeProjectIndex - 1 + projects.length) % projects.length];
+  const nextProject = projects[(activeProjectIndex + 1) % projects.length];
+  const desktopCarouselProjects = [
+    previousProject,
+    activeProject,
+    nextProject,
+  ];
+
   const selectProject = (projectId: string) => {
     setActiveProjectId(projectId);
     setConfettiPieces([]);
@@ -106,41 +119,81 @@ export default function ProjectCartridges() {
         </div>
       ) : null}
 
-      {/* Vista desktop: mantiene el selector de cartuchos y el panel inferior. */}
+      {/* Vista desktop: carrusel circular de tres cartuchos y panel inferior. */}
       <div className="projects-desktop-view">
-        <div className="cartridge-grid" aria-label="Proyectos destacados">
-          {projects.map((project) => {
-            const isActive = project.id === activeProject.id;
+        <div
+          className="projects-desktop-carousel"
+          role="group"
+          aria-label="Carrusel de proyectos destacados"
+        >
+          <p className="projects-desktop-carousel__counter" aria-live="polite">
+            GAME {String(activeProjectIndex + 1).padStart(2, "0")} /{" "}
+            {String(projects.length).padStart(2, "0")}
+          </p>
 
-            return (
-              // Cada cartucho es un boton real para que sea usable con teclado.
-              <button
-                aria-pressed={isActive}
-                className={`cartridge-card cartridge-card--image ${
-                  isActive ? "cartridge-card--active" : ""
-                }`}
-                key={project.id}
-                onClick={() => selectProject(project.id)}
-                type="button"
-              >
-                <img
-                  className="cartridge-image"
-                  src={project.cartridge.src}
-                  alt={project.cartridge.alt}
-                  width="447"
-                  height="558"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span className="sr-only">
-                  Seleccionar proyecto {project.label}
-                </span>
-              </button>
-            );
-          })}
+          <button
+            aria-controls="project-detail-panel"
+            aria-label={`Proyecto anterior: ${previousProject.label}`}
+            className="projects-desktop-carousel__nav projects-desktop-carousel__nav--prev"
+            onClick={() => selectProject(previousProject.id)}
+            type="button"
+          >
+            <span aria-hidden="true">&lt;</span>
+          </button>
+
+          <div
+            className="cartridge-grid"
+            role="group"
+            aria-label="Proyectos visibles"
+          >
+            {desktopCarouselProjects.map((project) => {
+              const isActive = project.id === activeProject.id;
+
+              return (
+                // Los laterales tambien son botones y llevan su proyecto al centro.
+                <button
+                  aria-controls="project-detail-panel"
+                  aria-pressed={isActive}
+                  className={`cartridge-card cartridge-card--image ${
+                    isActive
+                      ? "cartridge-card--active"
+                      : "cartridge-card--side"
+                  }`}
+                  key={project.id}
+                  onClick={() => selectProject(project.id)}
+                  type="button"
+                >
+                  <img
+                    className="cartridge-image"
+                    src={project.cartridge.src}
+                    alt={project.cartridge.alt}
+                    width="447"
+                    height="558"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span className="sr-only">
+                    {isActive ? "Proyecto seleccionado" : "Seleccionar proyecto"}{" "}
+                    {project.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            aria-controls="project-detail-panel"
+            aria-label={`Proyecto siguiente: ${nextProject.label}`}
+            className="projects-desktop-carousel__nav projects-desktop-carousel__nav--next"
+            onClick={() => selectProject(nextProject.id)}
+            type="button"
+          >
+            <span aria-hidden="true">&gt;</span>
+          </button>
         </div>
 
         <article
+          id="project-detail-panel"
           className="project-detail-panel"
           aria-label="Detalle del proyecto seleccionado"
           aria-live="polite"

@@ -157,6 +157,7 @@ La sección Proyectos se alimenta desde `src/data/projects.ts`.
 
 Proyectos actuales:
 
+- Nolvida.
 - Asistente conversacional personalizado para restaurantes.
 - Portfolio interactivo 8-bit.
 - Data Analyst.
@@ -172,5 +173,4 @@ Cada proyecto define título, descripción, stack, estado, cartucho visual y acc
 - No rediseñar sin comprobar desktop y móvil.
 - Mantener los comentarios útiles que expliquen decisiones no obvias.
 - Priorizar cambios pequeños, verificables y con `npm run build`.
-
 

@@ -51,6 +51,11 @@ const projectSchemaDetails: Record<
     type: "CreativeWork",
     programmingLanguage: ["Python", "SQL"],
   },
+  nolvida: {
+    type: ["MobileApplication", "SoftwareSourceCode"],
+    programmingLanguage: ["Kotlin"],
+    runtimePlatform: "Android 12+",
+  },
 };
 
 const projectEntities = projects.map((project) => {
@@ -150,6 +155,10 @@ const personData = {
     "Power BI",
     "ETL",
     "Data Visualization",
+    "Android",
+    "Kotlin",
+    "Jetpack Compose",
+    "Room",
   ],
   subjectOf: projectReferences,
   sameAs: ["https://github.com/lPable-Rm", "https://www.instagram.com/lpablo.ramos/"],

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nolvida — Resumen técnico · Pablo Ramos</title>
+    <meta
+      name="description"
+      content="Resumen técnico de Nolvida, una aplicación Android local-first para capturar recordatorios por voz o texto."
+    />
+    <link rel="stylesheet" href="summary.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="hero-label">
+            <img src="assets/icon.png" alt="Símbolo de Nolvida" />
+            <span>Caso técnico · Android nativo</span>
+          </div>
+          <h1>Nolvida</h1>
+          <p class="tagline">Captura un recordatorio antes de que se te olvide.</p>
+          <p class="summary">
+            Aplicación local-first que convierte voz o texto en recordatorios persistentes,
+            privados y accionables con la mínima fricción.
+          </p>
+          <span class="release"><i></i> Release 1.0 cerrada para publicación</span>
+        </div>
+        <figure class="hero-visual">
+          <img
+            src="assets/feature-graphic.png"
+            alt="La captura por voz de Nolvida se convierte en un recordatorio completado"
+          />
+        </figure>
+      </header>
+
+      <section class="overview">
+        <div class="overview-copy">
+          <article>
+            <p class="section-label">El reto</p>
+            <h2>Recordar no debería exigir organizar</h2>
+            <p>
+              Las ideas pequeñas se pierden entre desbloquear el móvil, abrir una app y rellenar
+              un formulario. El reto era reducir ese recorrido sin perder fiabilidad ni privacidad.
+            </p>
+          </article>
+          <article>
+            <p class="section-label">La solución</p>
+            <h2>Capturar, mantener visible y completar</h2>
+            <p>
+              Entrada manual desde una única pantalla, voz desde la app o el widget y una
+              notificación por recordatorio hasta marcarlo como hecho, con opción de deshacer.
+            </p>
+          </article>
+        </div>
+
+        <aside class="flow">
+          <p class="section-label section-label--light">Flujo principal</p>
+          <div class="flow-step">
+            <span>01</span>
+            <div><strong>Captura</strong><small>Voz o texto</small></div>
+          </div>
+          <b>↓</b>
+          <div class="flow-step">
+            <span>02</span>
+            <div><strong>Persistencia</strong><small>Room como fuente de verdad</small></div>
+          </div>
+          <b>↓</b>
+          <div class="flow-step">
+            <span>03</span>
+            <div><strong>Visibilidad</strong><small>Notificación persistente</small></div>
+          </div>
+          <b>↓</b>
+          <div class="flow-step">
+            <span>04</span>
+            <div><strong>Resolución</strong><small>Hecho o deshacer</small></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="architecture-section">
+        <div class="section-heading">
+          <p class="section-label">Arquitectura</p>
+          <h2>Una fuente de verdad para todos los puntos de entrada</h2>
+        </div>
+
+        <div class="architecture">
+          <article>
+            <span>Presentación</span>
+            <strong>Compose + StateFlow</strong>
+            <small>Una UI reactiva con estados explícitos y lógica fuera de las vistas.</small>
+          </article>
+          <div class="connector">→</div>
+          <article class="architecture-core">
+            <span>Orquestación</span>
+            <strong>ReminderManager</strong>
+            <small>Un Mutex serializa crear, completar, restaurar y reconciliar.</small>
+          </article>
+          <div class="connector">→</div>
+          <article>
+            <span>Datos y sistema</span>
+            <strong>Room + Android APIs</strong>
+            <small>Notificaciones, WorkManager, SpeechRecognizer y App Widget.</small>
+          </article>
+        </div>
+
+        <div class="invariants">
+          <span><i>1</i> Persistir antes de publicar</span>
+          <span><i>2</i> Room es la fuente de verdad</span>
+          <span><i>3</i> Reconciliar tras inicio, reinicio y cada 15 min</span>
+        </div>
+      </section>
+
+      <section class="bottom-grid">
+        <article class="privacy">
+          <p class="section-label">Privacidad por diseño</p>
+          <h2>El dato no sale del dispositivo</h2>
+          <div class="privacy-items">
+            <span>Sin permiso de Internet</span>
+            <span>Sin cuentas ni backend</span>
+            <span>Sin anuncios ni analítica</span>
+            <span>Sin audio almacenado</span>
+          </div>
+          <p class="privacy-note">
+            La voz se procesa con <strong>SpeechRecognizer on-device</strong>; solo la
+            transcripción confirmada se guarda localmente.
+          </p>
+        </article>
+
+        <article class="quality">
+          <p class="section-label">Calidad y entrega</p>
+          <div class="metrics">
+            <div><strong>48</strong><span>tests</span><small>17 + 31</small></div>
+            <div><strong>0</strong><span>errores lint</span><small>release</small></div>
+            <div><strong>12→16</strong><span>Android</span><small>3 entornos</small></div>
+            <div><strong>−52,94%</strong><span>peso AAB</span><small>R8 + shrink</small></div>
+          </div>
+          <p class="quality-note">
+            Cobertura centrada en concurrencia, persistencia, notificaciones, voz,
+            accesibilidad y comportamiento real del sistema.
+          </p>
+        </article>
+      </section>
+
+      <section class="delivery">
+        <div>
+          <p class="section-label">Stack</p>
+          <div class="tags">
+            <span>Kotlin</span><span>Jetpack Compose</span><span>Material 3</span>
+            <span>Room</span><span>DataStore</span><span>WorkManager</span>
+            <span>SpeechRecognizer</span><span>App Widget</span>
+          </div>
+        </div>
+        <div class="role">
+          <p class="section-label">Responsabilidad</p>
+          <p>Producto, UX, arquitectura, implementación, pruebas y preparación de la release.</p>
+        </div>
+      </section>
+
+      <footer>
+        <span>Pablo Ramos Melián · 2026</span>
+        <a href="https://www.pramos.dev/">www.pramos.dev</a>
+        <a href="mailto:nolvida@pramos.dev">nolvida@pramos.dev</a>
+      </footer>
+    </main>
+  </body>
+</html>

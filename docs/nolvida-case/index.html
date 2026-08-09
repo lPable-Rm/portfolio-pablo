@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nolvida — Caso técnico · Pablo Ramos</title>
+    <meta
+      name="description"
+      content="Caso técnico de Nolvida, una aplicación Android local-first para capturar recordatorios por voz o texto."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="document">
+      <section class="page cover" id="page-1">
+        <div class="cover-glow cover-glow--one"></div>
+        <div class="cover-glow cover-glow--two"></div>
+
+        <header class="cover-header">
+          <img class="brand-icon" src="assets/icon.png" alt="Símbolo de Nolvida" />
+          <div>
+            <p class="eyebrow eyebrow--light">Caso técnico · Android nativo</p>
+            <p class="cover-version">Versión 1.0 · Agosto 2026</p>
+          </div>
+        </header>
+
+        <div class="cover-copy">
+          <span class="status-pill"><span></span> Release cerrada para publicación</span>
+          <h1>Nolvida</h1>
+          <p class="cover-lead">
+            Capturar un recordatorio antes de que se te olvide.
+          </p>
+          <p class="cover-summary">
+            Una aplicación Android local-first que convierte voz o texto en recordatorios
+            visibles, privados y accionables, con la mínima fricción posible.
+          </p>
+        </div>
+
+        <figure class="cover-visual">
+          <img
+            src="assets/feature-graphic.png"
+            alt="La captura por voz de Nolvida se transforma en un recordatorio completado"
+          />
+        </figure>
+
+        <div class="cover-facts">
+          <div>
+            <span>Plataforma</span>
+            <strong>Android 12+</strong>
+          </div>
+          <div>
+            <span>Arquitectura</span>
+            <strong>Local-first</strong>
+          </div>
+          <div>
+            <span>Rol</span>
+            <strong>Diseño y desarrollo</strong>
+          </div>
+        </div>
+
+        <footer class="page-footer page-footer--light">
+          <span>Pablo Ramos Melián</span>
+          <span>pramos.dev</span>
+          <span>01</span>
+        </footer>
+      </section>
+
+      <section class="page" id="page-2">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">01 · El producto</p>
+            <h2>Recordar no debería exigir organizar</h2>
+          </div>
+          <span class="page-index">02</span>
+        </header>
+
+        <div class="two-columns product-layout">
+          <div>
+            <p class="intro">
+              Muchas ideas pequeñas se pierden en el tiempo que tardamos en desbloquear el
+              móvil, abrir una app, elegir una lista y completar un formulario. Nolvida reduce
+              ese recorrido a una acción: decir o escribir lo importante.
+            </p>
+
+            <div class="principle-list">
+              <article class="principle">
+                <span class="principle-number">01</span>
+                <div>
+                  <h3>Captura inmediata</h3>
+                  <p>Voz desde el widget o texto desde una única pantalla.</p>
+                </div>
+              </article>
+              <article class="principle">
+                <span class="principle-number">02</span>
+                <div>
+                  <h3>Visibilidad persistente</h3>
+                  <p>Cada recordatorio permanece en notificaciones hasta completarlo.</p>
+                </div>
+              </article>
+              <article class="principle">
+                <span class="principle-number">03</span>
+                <div>
+                  <h3>Privacidad por diseño</h3>
+                  <p>Sin cuentas, nube, anuncios, analítica ni permiso de Internet.</p>
+                </div>
+              </article>
+            </div>
+
+            <aside class="scope-card">
+              <p class="mini-label">Decisión de producto</p>
+              <p>
+                La primera versión evita categorías, calendarios e IA. El alcance deliberado
+                protege la promesa central: capturar, ver y completar.
+              </p>
+            </aside>
+          </div>
+
+          <figure class="phone-shot phone-shot--right">
+            <img src="assets/02-captura.png" alt="Pantalla de captura de Nolvida" />
+          </figure>
+        </div>
+
+        <footer class="page-footer">
+          <span>Nolvida · Caso técnico</span>
+          <span>Producto</span>
+          <span>02</span>
+        </footer>
+      </section>
+
+      <section class="page page--tint" id="page-3">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">02 · Experiencia</p>
+            <h2>Dos entradas. Un único modelo mental.</h2>
+          </div>
+          <span class="page-index">03</span>
+        </header>
+
+        <div class="flow-strip" aria-label="Flujo principal de Nolvida">
+          <article>
+            <span class="flow-icon">01</span>
+            <h3>Capturar</h3>
+            <p>Hablar o escribir</p>
+          </article>
+          <span class="flow-arrow">→</span>
+          <article>
+            <span class="flow-icon">02</span>
+            <h3>Confirmar</h3>
+            <p>Revisar el texto</p>
+          </article>
+          <span class="flow-arrow">→</span>
+          <article>
+            <span class="flow-icon">03</span>
+            <h3>Mantener visible</h3>
+            <p>Room + notificación</p>
+          </article>
+          <span class="flow-arrow">→</span>
+          <article>
+            <span class="flow-icon">04</span>
+            <h3>Completar</h3>
+            <p>Eliminar o deshacer</p>
+          </article>
+        </div>
+
+        <div class="experience-grid">
+          <figure class="phone-shot phone-shot--compact">
+            <img src="assets/03-widget.png" alt="Captura por voz desde el widget de Nolvida" />
+          </figure>
+
+          <div class="experience-copy">
+            <div class="callout callout--accent">
+              <p class="mini-label">Desde la aplicación</p>
+              <h3>La voz termina en una revisión editable</h3>
+              <p>
+                Los resultados parciales informan el estado, pero nunca se guardan. El usuario
+                revisa el texto final y decide cuándo crear el recordatorio.
+              </p>
+            </div>
+
+            <div class="callout">
+              <p class="mini-label">Desde el widget</p>
+              <h3>Captura sin abrir la app</h3>
+              <p>
+                Una pulsación inicia un servicio visible de micrófono. El resultado final se
+                guarda localmente y publica su notificación; la sesión se cierra en un máximo
+                de 60 segundos.
+              </p>
+            </div>
+
+            <ul class="check-list">
+              <li>Una sola pantalla principal y estados explícitos.</li>
+              <li>Texto manual y voz mutuamente excluyentes.</li>
+              <li>Completar con animación y opción de deshacer.</li>
+              <li>Seis paletas y seis idiomas de interfaz.</li>
+            </ul>
+          </div>
+        </div>
+
+        <footer class="page-footer">
+          <span>Nolvida · Caso técnico</span>
+          <span>Experiencia</span>
+          <span>03</span>
+        </footer>
+      </section>
+
+      <section class="page architecture-page" id="page-4">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">03 · Arquitectura</p>
+            <h2>Una fuente de verdad para todos los puntos de entrada</h2>
+          </div>
+          <span class="page-index">04</span>
+        </header>
+
+        <p class="intro intro--wide">
+          La aplicación, el widget y las acciones de notificación convergen en el mismo
+          orquestador. <strong>Room es la fuente de verdad</strong>; la notificación es una
+          proyección visible de ese estado, no un segundo almacén de datos.
+        </p>
+
+        <div class="architecture">
+          <div class="arch-row arch-row--sources">
+            <article class="arch-card">
+              <span>UI</span>
+              <strong>Jetpack Compose</strong>
+              <small>HomeRoute · HomeViewModel</small>
+            </article>
+            <article class="arch-card">
+              <span>Acceso rápido</span>
+              <strong>App Widget</strong>
+              <small>RemoteViews · VoiceCaptureService</small>
+            </article>
+            <article class="arch-card">
+              <span>Sistema</span>
+              <strong>Notificación</strong>
+              <small>Acción «Hecho» · BroadcastReceiver</small>
+            </article>
+          </div>
+
+          <div class="arch-connector"><span>create · complete · restore · reconcile</span></div>
+
+          <article class="arch-core">
+            <span class="mini-label">Orquestación de dominio</span>
+            <h3>ReminderManager</h3>
+            <p>
+              Serializa las mutaciones con <code>Mutex</code> y mantiene el orden correcto
+              entre persistencia, publicación y cancelación.
+            </p>
+          </article>
+
+          <div class="arch-branches">
+            <div></div><div></div><div></div>
+          </div>
+
+          <div class="arch-row arch-row--systems">
+            <article class="arch-card arch-card--system">
+              <span>Persistencia</span>
+              <strong>Room</strong>
+              <small>ReminderRepository · DAO transaccional</small>
+            </article>
+            <article class="arch-card arch-card--system">
+              <span>Estado visible</span>
+              <strong>NotificationManager</strong>
+              <small>Una notificación por ID de Room</small>
+            </article>
+            <article class="arch-card arch-card--system">
+              <span>Recuperación</span>
+              <strong>WorkManager</strong>
+              <small>Inicio · arranque · cada 15 minutos</small>
+            </article>
+          </div>
+        </div>
+
+        <div class="decision-grid">
+          <article>
+            <span class="decision-mark">A</span>
+            <h3>Inyección manual</h3>
+            <p>Un contenedor pequeño evita añadir un framework para un grafo de dependencias acotado.</p>
+          </article>
+          <article>
+            <span class="decision-mark">B</span>
+            <h3>Estado fuera de Compose</h3>
+            <p>El ViewModel expone StateFlow y conserva lógica testeable sin dependencias visuales.</p>
+          </article>
+          <article>
+            <span class="decision-mark">C</span>
+            <h3>APIs nativas</h3>
+            <p>SpeechRecognizer, NotificationManager y App Widget reducen capas innecesarias.</p>
+          </article>
+        </div>
+
+        <footer class="page-footer">
+          <span>Nolvida · Caso técnico</span>
+          <span>Arquitectura</span>
+          <span>04</span>
+        </footer>
+      </section>
+
+      <section class="page page--dark" id="page-5">
+        <header class="page-header page-header--light">
+          <div>
+            <p class="eyebrow eyebrow--light">04 · Consistencia</p>
+            <h2>Persistir primero. Mostrar después.</h2>
+          </div>
+          <span class="page-index">05</span>
+        </header>
+
+        <div class="consistency-grid">
+          <div>
+            <p class="intro intro--light">
+              El reto no era solo crear recordatorios: era impedir que base de datos y
+              notificaciones divergiesen ante concurrencia, reinicios o procesos interrumpidos.
+            </p>
+
+            <div class="sequence">
+              <article>
+                <span>1</span>
+                <div>
+                  <h3>Crear</h3>
+                  <p>Validar y guardar en Room antes de publicar.</p>
+                </div>
+              </article>
+              <article>
+                <span>2</span>
+                <div>
+                  <h3>Completar</h3>
+                  <p>Eliminar en una transacción y cancelar su notificación.</p>
+                </div>
+              </article>
+              <article>
+                <span>3</span>
+                <div>
+                  <h3>Deshacer</h3>
+                  <p>Restaurar exactamente la fila y volver a publicarla.</p>
+                </div>
+              </article>
+              <article>
+                <span>4</span>
+                <div>
+                  <h3>Reconciliar</h3>
+                  <p>Reponer las ausentes y cancelar las huérfanas.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <figure class="phone-shot phone-shot--dark">
+            <img src="assets/04-notificaciones.png" alt="Recordatorios persistentes de Nolvida" />
+          </figure>
+        </div>
+
+        <div class="invariant-row">
+          <article>
+            <strong>Mutex único</strong>
+            <p>Evita carreras entre completar, restaurar y reconciliar.</p>
+          </article>
+          <article>
+            <strong>Operaciones idempotentes</strong>
+            <p>Cancelar una huérfana o cerrar una sesión repetida es seguro.</p>
+          </article>
+          <article>
+            <strong>Recuperación diferida</strong>
+            <p>WorkManager repara el estado tras reinicio y periódicamente.</p>
+          </article>
+        </div>
+
+        <footer class="page-footer page-footer--light">
+          <span>Nolvida · Caso técnico</span>
+          <span>Consistencia</span>
+          <span>05</span>
+        </footer>
+      </section>
+
+      <section class="page" id="page-6">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">05 · Voz y Android</p>
+            <h2>Captura rápida con un ciclo de vida seguro</h2>
+          </div>
+          <span class="page-index">06</span>
+        </header>
+
+        <div class="voice-layout">
+          <figure class="phone-shot phone-shot--voice">
+            <img src="assets/01-recordatorios.png" alt="Lista principal de recordatorios en Nolvida" />
+          </figure>
+
+          <div>
+            <p class="intro">
+              Nolvida usa <code>SpeechRecognizer</code> en el dispositivo y solicita el micrófono
+              justo cuando se necesita. No existe un fallback a servicios en la nube y el audio
+              nunca se almacena.
+            </p>
+
+            <div class="state-machine">
+              <p class="mini-label">Máquina de estados de voz</p>
+              <div>
+                <span>Idle</span><b>→</b><span>Listening</span><b>→</b><span>Processing</span>
+              </div>
+              <div>
+                <span>Review</span><b>→</b><span>Saving</span><b>→</b><span>Idle</span>
+              </div>
+              <small>Los errores vuelven a un estado recuperable sin destruir el borrador.</small>
+            </div>
+
+            <div class="technical-notes">
+              <article>
+                <h3>Callbacks tardíos controlados</h3>
+                <p>Un ID de sesión descarta resultados pertenecientes a escuchas ya canceladas.</p>
+              </article>
+              <article>
+                <h3>Servicio foreground correcto</h3>
+                <p>El widget eleva el servicio antes de usar el micrófono y muestra actividad visible.</p>
+              </article>
+              <article>
+                <h3>Limpieza determinista</h3>
+                <p>Micrófono, reconocedor, timeout y notificación temporal se liberan de forma idempotente.</p>
+              </article>
+              <article>
+                <h3>Permisos con contexto</h3>
+                <p>Audio y notificaciones se solicitan solo cuando la acción del usuario los requiere.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <footer class="page-footer">
+          <span>Nolvida · Caso técnico</span>
+          <span>Voz y ciclo de vida</span>
+          <span>06</span>
+        </footer>
+      </section>
+
+      <section class="page privacy-page" id="page-7">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">06 · Privacidad</p>
+            <h2>La privacidad es una restricción de arquitectura</h2>
+          </div>
+          <span class="page-index">07</span>
+        </header>
+
+        <div class="privacy-hero">
+          <div class="privacy-symbol">
+            <img src="assets/icon.png" alt="" />
+          </div>
+          <div>
+            <p class="intro">
+              La promesa de producto se puede auditar en el manifiesto y en el flujo de datos:
+              Nolvida no declara permiso de Internet y no necesita un backend para funcionar.
+            </p>
+          </div>
+        </div>
+
+        <div class="privacy-grid">
+          <article>
+            <span class="privacy-icon">×</span>
+            <h3>Sin cuenta</h3>
+            <p>No hay registro, identidad de usuario ni sincronización externa.</p>
+          </article>
+          <article>
+            <span class="privacy-icon">×</span>
+            <h3>Sin Internet</h3>
+            <p>El permiso no aparece en el manifiesto de la aplicación.</p>
+          </article>
+          <article>
+            <span class="privacy-icon">×</span>
+            <h3>Sin audio guardado</h3>
+            <p>El buffer no se persiste; solo se utiliza la transcripción local.</p>
+          </article>
+          <article>
+            <span class="privacy-icon">×</span>
+            <h3>Sin seguimiento</h3>
+            <p>No incluye publicidad, analítica, SDKs de tracking ni telemetría.</p>
+          </article>
+        </div>
+
+        <div class="data-flow">
+          <p class="mini-label">Flujo de datos</p>
+          <div class="data-flow-row">
+            <span>Voz o texto</span>
+            <b>→</b>
+            <span>Procesamiento local</span>
+            <b>→</b>
+            <span>Room en el dispositivo</span>
+            <b>→</b>
+            <span>Notificación privada</span>
+          </div>
+        </div>
+
+        <div class="permission-box">
+          <div>
+            <span class="mini-label">Permisos declarados</span>
+            <p><code>RECORD_AUDIO</code> · <code>POST_NOTIFICATIONS</code> · <code>FOREGROUND_SERVICE_MICROPHONE</code> · <code>RECEIVE_BOOT_COMPLETED</code></p>
+          </div>
+          <p>
+            Cada permiso responde a una función visible: capturar voz, mostrar recordatorios,
+            mantener la sesión del widget y restaurar consistencia después de un reinicio.
+          </p>
+        </div>
+
+        <footer class="page-footer">
+          <span>Nolvida · Caso técnico</span>
+          <span>Privacidad</span>
+          <span>07</span>
+        </footer>
+      </section>
+
+      <section class="page page--tint" id="page-8">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">07 · Calidad</p>
+            <h2>Pruebas orientadas a los fallos que importan</h2>
+          </div>
+          <span class="page-index">08</span>
+        </header>
+
+        <div class="metrics">
+          <article>
+            <strong>48</strong>
+            <span>tests definidos</span>
+            <small>17 unitarios + 31 instrumentados</small>
+          </article>
+          <article>
+            <strong>3</strong>
+            <span>entornos Android</span>
+            <small>API 31, API 36 y dispositivo físico</small>
+          </article>
+          <article>
+            <strong>0</strong>
+            <span>errores de lint</span>
+            <small>validación de la release</small>
+          </article>
+          <article>
+            <strong>−52,94%</strong>
+            <span>peso del AAB</span>
+            <small>R8 + reducción de recursos</small>
+          </article>
+        </div>
+
+        <div class="quality-grid">
+          <article class="quality-card">
+            <p class="mini-label">Dominio y concurrencia</p>
+            <h3>El estado no se desordena</h3>
+            <ul>
+              <li>Orden persistir/publicar y eliminar/cancelar.</li>
+              <li>Carreras entre completar, restaurar y reconciliar.</li>
+              <li>Notificaciones ausentes y huérfanas.</li>
+              <li>Restauración exacta después de «deshacer».</li>
+            </ul>
+          </article>
+          <article class="quality-card">
+            <p class="mini-label">Integración Android</p>
+            <h3>El contrato con el sistema se cumple</h3>
+            <ul>
+              <li>Room persiste y mantiene el orden esperado.</li>
+              <li>PendingIntents explícitos e inmutables.</li>
+              <li>Acción «Hecho» de extremo a extremo.</li>
+              <li>Estados y errores del reconocimiento de voz.</li>
+            </ul>
+          </article>
+          <article class="quality-card">
+            <p class="mini-label">Interfaz y accesibilidad</p>
+            <h3>La experiencia resiste configuraciones reales</h3>
+            <ul>
+              <li>Texto grande y controles alcanzables.</li>
+              <li>Contraste de las seis paletas.</li>
+              <li>Descripciones para lectores de pantalla.</li>
+              <li>Insets, teclado y diferentes tamaños.</li>
+            </ul>
+          </article>
+          <article class="quality-card quality-card--accent">
+            <p class="mini-label">Matriz verificada</p>
+            <h3>De Android 12 a Android 16</h3>
+            <p>
+              La validación documentada cubre el mínimo soportado, la API objetivo y un Vivo
+              V2130 con Android 14, incluyendo instalación firmada y comportamiento del widget.
+            </p>
+          </article>
+        </div>
+
+        <p class="source-note">
+          Métricas obtenidas del código y de la documentación de validación de la versión 1.0.
+        </p>
+
+        <footer class="page-footer">
+          <span>Nolvida · Caso técnico</span>
+          <span>Calidad</span>
+          <span>08</span>
+        </footer>
+      </section>
+
+      <section class="page closing-page" id="page-9">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">08 · Resultado</p>
+            <h2>Un producto pequeño con decisiones profundas</h2>
+          </div>
+          <span class="page-index">09</span>
+        </header>
+
+        <div class="closing-grid">
+          <div>
+            <p class="intro">
+              Nolvida llega a su release 1.0 con un alcance deliberadamente compacto y una base
+              preparada para comportarse bien en el entorno real de Android: permisos, procesos,
+              reinicios, concurrencia, accesibilidad y diferentes versiones del sistema.
+            </p>
+
+            <div class="result-list">
+              <article>
+                <span>01</span>
+                <div>
+                  <h3>Menos fricción</h3>
+                  <p>Widget de voz, entrada manual directa y una única pantalla principal.</p>
+                </div>
+              </article>
+              <article>
+                <span>02</span>
+                <div>
+                  <h3>Más confianza</h3>
+                  <p>Persistencia local, reconciliación y acciones recuperables.</p>
+                </div>
+              </article>
+              <article>
+                <span>03</span>
+                <div>
+                  <h3>Privacidad demostrable</h3>
+                  <p>Sin permiso de Internet, cuentas, backend ni audio almacenado.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <aside class="stack-panel">
+            <img src="assets/icon.png" alt="Símbolo de Nolvida" />
+            <p class="mini-label">Stack principal</p>
+            <div class="tag-cloud">
+              <span>Kotlin</span><span>Jetpack Compose</span><span>Material 3</span>
+              <span>Room</span><span>DataStore</span><span>WorkManager</span>
+              <span>SpeechRecognizer</span><span>App Widget</span>
+            </div>
+            <hr />
+            <p class="mini-label">Responsabilidad</p>
+            <p>Diseño de producto, UX, arquitectura, implementación, pruebas y preparación de la release.</p>
+          </aside>
+        </div>
+
+        <div class="lesson-box">
+          <p class="mini-label">Principal aprendizaje</p>
+          <blockquote>
+            La simplicidad visible exige resolver muy bien la complejidad invisible.
+          </blockquote>
+          <p>
+            Una interacción de pocos segundos depende de estados explícitos, persistencia
+            consistente y un tratamiento cuidadoso del ciclo de vida de Android.
+          </p>
+        </div>
+
+        <div class="contact-strip">
+          <div>
+            <span>Portfolio</span>
+            <strong><a href="https://www.pramos.dev/">www.pramos.dev</a></strong>
+          </div>
+          <div>
+            <span>Privacidad de Nolvida</span>
+            <strong><a href="https://www.pramos.dev/nolvida/privacy">pramos.dev/nolvida/privacy</a></strong>
+          </div>
+          <div>
+            <span>Contacto</span>
+            <strong><a href="mailto:nolvida@pramos.dev">nolvida@pramos.dev</a></strong>
+          </div>
+        </div>
+
+        <p class="method-note">
+          Caso elaborado mediante análisis directo del repositorio y la documentación de la
+          versión 1.0. Estado del proyecto: release cerrada, pendiente de publicación en Google Play.
+        </p>
+
+        <footer class="page-footer">
+          <span>Pablo Ramos Melián</span>
+          <span>Nolvida · 2026</span>
+          <span>09</span>
+        </footer>
+      </section>
+    </main>
+    <script>
+      const previewPage = new URLSearchParams(window.location.search).get("preview");
+
+      if (previewPage) {
+        document.body.classList.add("preview-mode");
+        document.querySelectorAll(".page").forEach((page) => {
+          if (page.id !== `page-${previewPage}`) page.remove();
+        });
+      }
+    </script>
+  </body>
+</html>
