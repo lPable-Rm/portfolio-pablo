@@ -151,6 +151,12 @@ Antes de considerar un cambio terminado, ejecutar:
 npm run build
 ```
 
+## Continuidad del trabajo
+
+El estado de la última sesión, las decisiones tomadas y los siguientes pasos están registrados
+en [`docs/WORKLOG.md`](docs/WORKLOG.md). Conviene actualizarlo después de cada bloque de cambios
+importante para poder retomar el proyecto sin reconstruir el contexto.
+
 ## Proyectos destacados
 
 La sección Proyectos se alimenta desde `src/data/projects.ts`.
@@ -173,4 +179,3 @@ Cada proyecto define título, descripción, stack, estado, cartucho visual y acc
 - No rediseñar sin comprobar desktop y móvil.
 - Mantener los comentarios útiles que expliquen decisiones no obvias.
 - Priorizar cambios pequeños, verificables y con `npm run build`.
-
